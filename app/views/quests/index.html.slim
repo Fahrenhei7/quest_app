@@ -1,0 +1,28 @@
+h1 Listing quests
+
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Creator
+      th Signed Users
+      th
+      th
+      th
+      th
+
+  tbody
+    - @quests.each do |quest|
+      tr
+        td = quest.name
+        td = quest.description
+        td = quest.creator.id
+        td = quest.users.count
+        td = link_to 'Show', quest
+        td = link_to 'Edit', edit_quest_path(quest)
+        td = link_to 'Destroy', quest, data: { confirm: 'Are you sure?' }, method: :delete
+        td = link_to 'SIGN TO', sign_path(quest), method: :patch
+br
+
+= link_to 'New Quest', new_quest_path
