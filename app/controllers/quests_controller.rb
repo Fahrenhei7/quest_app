@@ -24,7 +24,7 @@ class QuestsController < ApplicationController
   # POST /quests
   # POST /quests.json
   def create
-    @quest = current_user.owned_quests.new(quest_params)
+    @quest = current_user.created_quests.new(quest_params)
 
     respond_to do |format|
       if @quest.save
@@ -51,11 +51,14 @@ class QuestsController < ApplicationController
     end
   end
 
+  # PATCH /quests/:id/sign
+  # ADD JSON RESPONSE
   def sign
-    @quest.users << current_user
-    if @quest.save!
-      redirect_to root_path
-    end
+    @quest.signed_users << current_user
+    redirect_to root_path flash[:success] = "Signed successfully"
+  rescue ActiveRecord::RecordInvalid => e
+    redirect_to root_path flash[:danger] = e
+
   end
 
   # DELETE /quests/1
@@ -69,13 +72,13 @@ class QuestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_quest
-      @quest = Quest.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_quest
+    @quest = Quest.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def quest_params
-      params.require(:quest).permit(:name, :description, :creator_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def quest_params
+    params.require(:quest).permit(:name, :description, :creator_id)
+  end
 end

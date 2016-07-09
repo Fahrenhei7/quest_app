@@ -3,7 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  has_many :owned_quests, class_name: 'Quest', foreign_key: :creator_id
-  #has_and_belongs_to_many :signed_quests, class_name: 'Quest'
-  has_and_belongs_to_many :quests, join_table: 'users_quests'
+
+  has_many :created_quests, class_name: 'Quest', foreign_key: :creator_id
+
+  has_many :quest_user_joins #join table assosiate
+  has_many :signed_quests, through: :quest_user_joins, source: :quest
+
 end

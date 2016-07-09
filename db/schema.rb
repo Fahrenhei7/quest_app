@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707153007) do
+ActiveRecord::Schema.define(version: 20160708132954) do
+
+  create_table "quest_user_joins", force: :cascade do |t|
+    t.integer  "quest_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id"], name: "index_quest_user_joins_on_quest_id"
+    t.index ["user_id"], name: "index_quest_user_joins_on_user_id"
+  end
 
   create_table "quests", force: :cascade do |t|
     t.string   "name"
@@ -39,11 +48,6 @@ ActiveRecord::Schema.define(version: 20160707153007) do
     t.index ["created_quests_id"], name: "index_users_on_created_quests_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "users_quests", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "quest_id"
   end
 
 end
