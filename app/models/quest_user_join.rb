@@ -9,7 +9,7 @@ class QuestUserJoin < ApplicationRecord
   private
 
   def user_not_creator
-    errors.add(:user, 'cant sign to your own quest') if quest.creator_id == user_id
+    errors.add(:user, 'can\'t sign to own quest.') if quest.creator_id == user_id
   end
 
 end

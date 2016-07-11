@@ -1,5 +1,5 @@
 class QuestsController < ApplicationController
-  before_action :set_quest, only: [:show, :edit, :update, :sign, :destroy]
+  before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign, :destroy]
 
   # GET /quests
   # GET /quests.json
@@ -58,7 +58,12 @@ class QuestsController < ApplicationController
     redirect_to root_path flash[:success] = "Signed successfully"
   rescue ActiveRecord::RecordInvalid => e
     redirect_to root_path flash[:danger] = e
+  end
 
+  # DELETE /quests/:id/unsign
+  # ADD JSON RESPONSE
+  def unsign
+    @quest.signed_users.delete current_user
   end
 
   # DELETE /quests/1

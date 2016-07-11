@@ -22,6 +22,11 @@ table
         td = link_to 'Show', quest
         td = link_to 'Edit', edit_quest_path(quest)
         td = link_to 'Destroy', quest, data: { confirm: 'Are you sure?' }, method: :delete
-        td = link_to 'SIGN TO', sign_path(quest), method: :patch
+        - if current_user_can_sign?(quest)
+          td = link_to 'SIGN', sign_path(quest), method: :patch
+        - elsif current_user_can_unsign?(quest)
+          td = link_to 'UNSIGN', unsign_path(quest), method: :delete
+        - elsif current_user_owner_of_quest(quest)
+          td owned
 
 = link_to 'New Quest', new_quest_path
