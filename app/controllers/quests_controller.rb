@@ -55,9 +55,9 @@ class QuestsController < ApplicationController
   # ADD JSON RESPONSE
   def sign
     @quest.signed_users << current_user
-    redirect_to root_path flash[:success] = "Signed successfully"
+    redirect_to @quest
   rescue ActiveRecord::RecordInvalid => e
-    redirect_to root_path flash[:danger] = e
+    redirect_to @quest, flash[:danger] = e
   end
 
   # DELETE /quests/:id/unsign
