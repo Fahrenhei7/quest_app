@@ -17,3 +17,12 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+
+// styles for centered_column layout
+.container {
+  .default-section {
+    width: 500px;
+    margin: 0 auto;
+  }
+}
