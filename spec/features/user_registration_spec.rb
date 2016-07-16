@@ -6,7 +6,7 @@ feature 'Sign up user' do
 
   let(:new_user_signup_form) { NewUserSignupForm.new }
 
-  scenario 'sign up new user with valid data' do
+  scenario 'with valid data' do
     new_user_signup_form.visit_page.fill_in_with().submit
 
     expect(page).to have_content('Welcome! You have signed up successfully.')
@@ -16,13 +16,13 @@ feature 'Sign up user' do
     expect(User.last.name).to eq('John')
   end
 
-  scenario 'sign up new user with invalid name' do
+  scenario 'with invalid name' do
     new_user_signup_form.visit_page.fill_in_with(name: '').submit
     expect(page).to have_content('can\'t be blank')
     expect(User.last).to be_nil
   end
 
-  scenario 'sign up new user with different pswd/confirm_pswd' do
+  scenario 'with different pswd/confirm_pswd' do
     new_user_signup_form.visit_page
                         .fill_in_with(password_confirmation: 'anotherpass')
                         .submit

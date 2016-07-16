@@ -5,4 +5,6 @@ class Quest < ApplicationRecord
   has_many :quest_user_joins #join table assosiate
   has_many :signed_users, through: :quest_user_joins, source: :user
 
+  validates :name, presence: true
+
 end

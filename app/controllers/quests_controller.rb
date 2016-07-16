@@ -24,6 +24,8 @@ class QuestsController < ApplicationController
   # POST /quests
   # POST /quests.json
   def create
+    return head(:unauthorized) unless current_user
+
     @quest = current_user.created_quests.new(quest_params)
 
     respond_to do |format|

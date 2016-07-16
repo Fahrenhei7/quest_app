@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Log in user' do
+feature 'Log in' do
 
   before(:each) do
     visit ('/')
     click_on('Log in')
   end
 
-  scenario 'log in as existing user' do
+  scenario 'as existing user' do
 
     user = FactoryGirl.create(:user)
     fill_in("Email", with: user.email)
@@ -19,6 +19,6 @@ feature 'Log in user' do
     #---
   end
 
-  scenario 'log in as non-existing user'
+  scenario 'as non-existing user'
 
 end
