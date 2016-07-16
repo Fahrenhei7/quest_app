@@ -3,11 +3,11 @@ class CustomRegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(users)
     #return authenticated_root_url
     return root_url
-    flash[:notice] = "Welcome!"
   end
 
+
   def after_edit_path_for(users)
-    flash[:notice] = "Your password successfully updated"
+    #flash[:notice] = "Your password successfully updated"
   end
 
   def update
