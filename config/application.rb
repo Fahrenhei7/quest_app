@@ -27,6 +27,19 @@ module QuestApp
             'centered_column'
           end
         }
+        StaticPagesController.layout ->{
+          default_layout = %W()
+          centered_column = %W()
+          temporary = %W(welcome)
+          case action_name
+          when *default_layout
+            'application'
+          when *centered_column
+            'centered_column'
+          when *temporary
+            'temporary'
+          end
+        }
     end
 
     config.generators do |g|
