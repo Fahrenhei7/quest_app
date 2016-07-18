@@ -17,5 +17,8 @@
 !/log/.keep
 !/tmp/.keep
 
+# ignore .swp vim files
+*.swp
+
 # Ignore Byebug command history file.
 .byebug_history
