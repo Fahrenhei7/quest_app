@@ -1,5 +1,6 @@
 class QuestsController < ApplicationController
   before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy ]
 
   # GET /quests
   # GET /quests.json
@@ -19,13 +20,12 @@ class QuestsController < ApplicationController
 
   # GET /quests/1/edit
   def edit
+    authorize @quest
   end
 
   # POST /quests
   # POST /quests.json
   def create
-    return head(:unauthorized) unless current_user
-
     @quest = current_user.created_quests.new(quest_params)
 
     respond_to do |format|
@@ -42,6 +42,8 @@ class QuestsController < ApplicationController
   # PATCH/PUT /quests/1
   # PATCH/PUT /quests/1.json
   def update
+    authorize @quest
+
     respond_to do |format|
       if @quest.update(quest_params)
         format.html { redirect_to @quest, notice: 'Quest was successfully updated.' }
@@ -72,6 +74,7 @@ class QuestsController < ApplicationController
   # DELETE /quests/1.json
   def destroy
     @quest.destroy
+    authorize @quest
     respond_to do |format|
       format.html { redirect_to quests_url, notice: 'Quest was successfully destroyed.' }
       format.json { head :no_content }
