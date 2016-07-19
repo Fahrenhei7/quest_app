@@ -30,3 +30,22 @@ feature 'try to edit own quest' do
   end
 
 end
+
+feature 'try to edit not owned quest' do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
+  let(:login_form) { LoginForm.new }
+  let(:new_quest_form) { NewQuestForm.new }
+
+  before do
+    login_form.visit_page.login_as(user)
+    new_quest_form.visit_page_by_url.fill_in_with_valid_data().submit
+    login_form.logout
+    login_form.visit_page.login_as(user2)
+  end
+
+  scenario 'by clicking from #show' do
+    visit('quests/1')
+    expect(page).not_to have_css('a', text: 'Edit')
+  end
+end

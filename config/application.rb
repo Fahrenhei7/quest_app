@@ -18,8 +18,8 @@ module QuestApp
         Devise::UnlocksController.layout "centered_column"
         Devise::PasswordsController.layout "centered_column"
         QuestsController.layout ->{
-          default_layout = %W(index)
-          centered_column = %W(new)
+          default_layout = %W()
+          centered_column = %W(index new show edit)
           case action_name
           when *default_layout
             'application'

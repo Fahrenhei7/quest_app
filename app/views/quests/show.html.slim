@@ -10,6 +10,7 @@ p
   strong Creator:
   = @quest.creator.id
 
-= link_to 'Edit', edit_quest_path(@quest)
-'|
+- if policy(@quest).edit?
+  = link_to 'Edit', edit_quest_path(@quest)
+  '|
 = link_to 'Back', quests_path

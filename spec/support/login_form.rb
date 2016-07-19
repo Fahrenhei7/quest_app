@@ -13,4 +13,9 @@ class LoginForm
     self
   end
 
+  def logout
+    click_on('Log out')
+  end
+
+
 end
