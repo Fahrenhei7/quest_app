@@ -73,8 +73,8 @@ class QuestsController < ApplicationController
   # DELETE /quests/1
   # DELETE /quests/1.json
   def destroy
-    @quest.destroy
     authorize @quest
+    @quest.destroy
     respond_to do |format|
       format.html { redirect_to quests_url, notice: 'Quest was successfully destroyed.' }
       format.json { head :no_content }

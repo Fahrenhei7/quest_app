@@ -20,5 +20,6 @@ class QuestPolicy < ApplicationPolicy
     user == quest.creator
   end
 
-
 end
+
+

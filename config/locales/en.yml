@@ -20,4 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  pundit:
+    default:
+    quest_policy:
+      edit?:    "You can't edit this post."
+      update?:  "You can't change this post."
+      destroy?: "You can't delete this post."
+
+
+
+

@@ -177,7 +177,6 @@ RSpec.describe QuestsController, type: :controller do
 
       describe 'GET #edit' do
         it 'redirects to quests page' do
-          skip
           get :edit, params: { id: quest }
           expect(response).to redirect_to(quests_path)
         end
@@ -185,14 +184,12 @@ RSpec.describe QuestsController, type: :controller do
 
       describe 'PATCH #update' do
         it 'redirects to quests page' do
-          skip
           patch :update, params: { id: quest,
                                    quest: FactoryGirl.attributes_for(:quest, name: 'New name') }
           expect(response).to redirect_to(quests_path)
         end
 
         it "doesn't update record in database" do
-          skip
           patch :update, params: { id: quest,
                                    quest: FactoryGirl.attributes_for(:quest, name: 'New name') }
           quest.reload
@@ -202,7 +199,6 @@ RSpec.describe QuestsController, type: :controller do
 
       describe 'DELETE #destroy' do
         it 'redirects to quests page' do
-          skip
           delete :destroy, params: { id: quest }
           expect(Quest.exists?(quest.id)).to be_truthy
         end
