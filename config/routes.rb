@@ -4,9 +4,9 @@ Rails.application.routes.draw do
     sessions: 'custom_sessions',
     registrations: 'custom_registrations'
   }, path_names: {
-    #sign_up: 'registration',
-    #sign_out: 'logout',
-    #sign_in: 'login'
+    sign_up: 'registration',
+    sign_out: 'logout',
+    sign_in: 'login'
   }
 
 

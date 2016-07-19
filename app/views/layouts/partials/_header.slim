@@ -10,9 +10,13 @@ nav.navbar.navbar-default
     /! Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       ul.nav.navbar-nav
-        li
-          = link_to "Log in", new_user_session_path
-        li
-          = link_to "Sign up", new_user_registration_path
-        li
-          a href="#"  Link
+        - unless current_user
+          li
+            = link_to "Log in", new_user_session_path
+          li
+            = link_to "Sign up", new_user_registration_path
+        - else
+          li
+            = link_to "Create new quest", new_quest_path
+          li
+            = link_to "Log out", destroy_user_session_path, method: :delete
