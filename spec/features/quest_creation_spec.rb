@@ -13,12 +13,12 @@ feature 'create new quest as logged in user' do
   # todo: check out wtf is happening with #background and #given
 
 
-  scenario 'create quest with valid data' do
+  scenario 'with valid data' do
     new_quest_form.visit_page_by_click.fill_in_with_valid_data().submit
-    expect(page).to have_content('capybara new name')
+    expect(page).to have_content('Capybara new name')
   end
 
-  scenario 'create quest with invalid data' do
+  scenario 'with invalid data' do
     new_quest_form.visit_page_by_click.fill_in_with_invalid_data().submit
     expect(page).to have_content("can't be blank")
   end
@@ -28,12 +28,12 @@ end
 feature 'create new quest as non logged in user' do
   let(:new_quest_form) { NewQuestForm.new }
 
-  scenario 'try to create quest by clicking link' do
+  scenario 'by clicking link' do
     visit('/')
     expect(page).not_to have_content('Create new quest')
   end
 
-  scenario 'try to create quest by visiting url' do
+  scenario 'by visiting url' do
     new_quest_form.visit_page_by_url
     expect(page).to have_content('You need to sign in')
   end

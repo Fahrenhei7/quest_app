@@ -15,15 +15,15 @@ class NewQuestForm
   end
 
   def fill_in_with_valid_data(params = {})
-    fill_in('Name', with: params.fetch(:name, 'capybara new name'))
-    fill_in('Description', with: params.fetch(:description, 'capybara new name'))
+    fill_in('Name', with: params.fetch(:name, 'Capybara new name'))
+    fill_in('Description', with: params.fetch(:description, 'Capybara new description'))
 
     self
   end
 
   def fill_in_with_invalid_data(params = {})
     fill_in('Name', with: params.fetch(:name, ''))
-    fill_in('Description', with: params.fetch(:description, 'capybara new name'))
+    fill_in('Description', with: params.fetch(:description, 'Capybara new description'))
 
     self
   end
