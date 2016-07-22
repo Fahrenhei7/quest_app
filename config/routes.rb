@@ -22,7 +22,8 @@ Rails.application.routes.draw do
 
   root to: 'static_pages#welcome'
 
-  resources :quests
+  resources :quests do
+  end
 
   patch '/quests/:id/sign', to: 'quests#sign', as: 'sign'
   delete '/quests/:id/unsign', to: 'quests#unsign', as: 'unsign'

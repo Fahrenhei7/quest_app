@@ -19,12 +19,16 @@
 #  created_quests_id      :integer
 #
 
-FactoryGirl.define do
-  factory :user do
-    name 'John'
-    sequence(:email) { |n| "samplemail_#{n}@g.com" }
-    password  '1234567pswd'
-    password_confirmation '1234567pswd'
-  end
-end
+require 'rails_helper'
 
+describe User do
+
+  context 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_length_of(:name).is_at_least(2) }
+    it { should validate_length_of(:name).is_at_most(25) }
+    it { should have_many(:created_quests) }
+    it { should have_many(:signed_quests) }
+  end
+
+end

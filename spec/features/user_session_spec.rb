@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 feature 'Log in' do
-  let(:user) { FactoryGirl.create(:user) }
-  before(:each) do
+  given(:user) { FactoryGirl.create(:user) }
+  background do
     visit ('/')
     click_on('Log in')
   end
@@ -16,7 +16,6 @@ feature 'Log in' do
     expect(current_path).to eq(root_path)
     #---
   end
-
   scenario 'as non-existing user' do
     fill_in("Email", with: "non-existing-email@g.co")
     fill_in("Password", with: user.password)

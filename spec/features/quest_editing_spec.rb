@@ -4,12 +4,12 @@ require_relative '../support/quest/edit_quest_form.rb'
 require_relative '../support/quest/new_quest_form.rb'
 
 feature 'try to edit own quest' do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:login_form) { LoginForm.new }
-  let(:new_quest_form) { NewQuestForm.new }
-  let(:edit_quest_form) { EditQuestForm.new }
+  given(:user) { FactoryGirl.create(:user) }
+  given(:login_form) { LoginForm.new }
+  given(:new_quest_form) { NewQuestForm.new }
+  given(:edit_quest_form) { EditQuestForm.new }
 
-  before do
+  background do
     login_form.visit_page.login_as(user)
     new_quest_form.visit_page_by_url.fill_in_with_valid_data().submit
   end
@@ -32,12 +32,12 @@ feature 'try to edit own quest' do
 end
 
 feature 'try to edit not owned quest' do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
-  let(:login_form) { LoginForm.new }
-  let(:new_quest_form) { NewQuestForm.new }
+  given(:user) { FactoryGirl.create(:user) }
+  given(:user2) { FactoryGirl.create(:user) }
+  given(:login_form) { LoginForm.new }
+  given(:new_quest_form) { NewQuestForm.new }
 
-  before do
+  background do
     login_form.visit_page.login_as(user)
     new_quest_form.visit_page_by_url.fill_in_with_valid_data().submit
     login_form.logout
@@ -47,5 +47,10 @@ feature 'try to edit not owned quest' do
   scenario 'by clicking from #show' do
     visit('quests/1')
     expect(page).not_to have_css('a', text: 'Edit')
+  end
+
+  scenario 'by visiting direct link' do
+    visit('quests/1/edit')
+    expect(page).to have_content('You can\'t edit this post.')
   end
 end
