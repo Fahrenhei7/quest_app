@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708132954) do
+ActiveRecord::Schema.define(version: 20160722034831) do
+
+  create_table "missions", force: :cascade do |t|
+    t.text     "task"
+    t.string   "key"
+    t.integer  "quest_id"
+    t.integer  "difficulty"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id"], name: "index_missions_on_quest_id"
+  end
 
   create_table "quest_user_joins", force: :cascade do |t|
     t.integer  "quest_id"

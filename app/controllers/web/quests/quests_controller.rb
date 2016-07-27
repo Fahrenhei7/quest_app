@@ -1,6 +1,7 @@
-class QuestsController < ApplicationController
+class Web::Quests::QuestsController < Web::Quests::ApplicationController
   before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign, :destroy]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy ]
+
 
   # GET /quests
   # GET /quests.json
@@ -15,7 +16,7 @@ class QuestsController < ApplicationController
 
   # GET /quests/new
   def new
-    @quest = Quest.new
+    @quest = current_user.created_quests.new
   end
 
   # GET /quests/1/edit
@@ -91,4 +92,5 @@ class QuestsController < ApplicationController
   def quest_params
     params.require(:quest).permit(:name, :description, :creator_id)
   end
+
 end

@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Task:
+  = @mission.task
+p
+  strong Key:
+  = @mission.key
+p
+  strong Quest:
+  = @mission.quest
+p
+  strong Difficulty:
+  = @mission.difficulty
+
+= link_to 'Edit', edit_mission_path(@mission)
+'|
+= link_to 'Back', mission_path

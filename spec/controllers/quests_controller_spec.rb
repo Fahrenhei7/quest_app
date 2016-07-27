@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe QuestsController, type: :controller do
+RSpec.describe Web::Quests::QuestsController, type: :controller do
 
   shared_examples 'public access to quests' do
 
@@ -17,6 +17,7 @@ RSpec.describe QuestsController, type: :controller do
 
       it { expect(response).to render_template(:show) }
       it { expect(assigns(:quest)).to eq(quest) }
+      it { skip; expect(assigns(:missions)).to eq(quest.missions) }
     end
 
   end
@@ -80,7 +81,6 @@ RSpec.describe QuestsController, type: :controller do
         expect(assigns(:quest)).to be_a_new(Quest)
       end
     end
-
     describe 'POST #create' do
       context 'valid data' do
         let(:valid_data) { FactoryGirl.attributes_for(:quest) }
@@ -134,7 +134,6 @@ RSpec.describe QuestsController, type: :controller do
           it 'redirects to quests#show' do
             expect(response).to redirect_to(quest)
           end
-
           it 'updates record in database' do
             quest.reload
             expect(quest.name).to eq('new valid name')
@@ -150,7 +149,6 @@ RSpec.describe QuestsController, type: :controller do
           it 'renders :edit template' do
             expect(response).to render_template(:edit)
           end
-
           it "doesn't update record in database" do
             quest.reload
             expect(quest.description).not_to eq('new description')
@@ -159,16 +157,15 @@ RSpec.describe QuestsController, type: :controller do
       end
 
       describe 'DELETE #destroy' do
+        let!(:quest) { FactoryGirl.create(:quest, creator: user) }
         before(:each) { delete :destroy, params: { id: quest } }
 
         it 'redirects to quests#index' do
           expect(response).to redirect_to(quests_path)
         end
-
         it 'deletes record from database' do
           expect(Quest.exists?(quest.id)).to be_falsy
         end
-
       end
     end
 
@@ -188,7 +185,6 @@ RSpec.describe QuestsController, type: :controller do
                                    quest: FactoryGirl.attributes_for(:quest, name: 'New name') }
           expect(response).to redirect_to(quests_path)
         end
-
         it "doesn't update record in database" do
           patch :update, params: { id: quest,
                                    quest: FactoryGirl.attributes_for(:quest, name: 'New name') }
@@ -206,10 +202,5 @@ RSpec.describe QuestsController, type: :controller do
 
     end
   end
-
-
-
-
-
 
 end

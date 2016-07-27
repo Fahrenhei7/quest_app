@@ -1,0 +1,30 @@
+h1 Listing missions
+
+table
+  thead
+    tr
+      th Task
+      th Key
+      th Quest
+      th Difficulty
+      th
+      th
+      th
+
+  tbody
+    - @missions.each do |mission|
+      tr
+        td = mission.task
+        td = mission.key
+        td = mission.quest.id
+        td = mission.difficulty
+        /td = link_to 'Show',  quest_mission_path(current_quest, mission)
+        /td = link_to 'Edit', edit_quest_mission_path(current_quest, mission)
+        /td = link_to 'Destroy', quest_mission_path(current_quest, mission), data: { confirm: 'Are you sure?' }, method: :delete
+
+        td = link_to 'Show',  mission
+        td = link_to 'Edit', edit_mission_path(mission)
+        td = link_to 'Destroy', mission, data: { confirm: 'Are you sure?' }, method: :delete
+br
+
+= link_to 'New Mission', new_quest_mission_path

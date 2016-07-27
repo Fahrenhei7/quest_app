@@ -17,7 +17,7 @@ module QuestApp
         Devise::ConfirmationsController.layout "centered_column"
         Devise::UnlocksController.layout "centered_column"
         Devise::PasswordsController.layout "centered_column"
-        QuestsController.layout ->{
+        Web::Quests::QuestsController.layout ->{
           default_layout = %W()
           centered_column = %W(index new show edit)
           case action_name
@@ -27,7 +27,7 @@ module QuestApp
             'centered_column'
           end
         }
-        StaticPagesController.layout ->{
+        Web::StaticPagesController.layout ->{
           default_layout = %W()
           centered_column = %W()
           temporary = %W(welcome)

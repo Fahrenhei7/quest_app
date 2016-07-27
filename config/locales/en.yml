@@ -26,6 +26,10 @@ en:
       edit?:    "You can't edit this post."
       update?:  "You can't change this post."
       destroy?: "You can't delete this post."
+    mission_policy:
+      edit?:    "You can't edit this mission."
+      update?:  "You can't change this mission."
+      destroy?: "You can't delete this mission."
 
 
 
