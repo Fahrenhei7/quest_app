@@ -1,32 +1,40 @@
-h1 Listing quests
+.container
+  .col-md-4
+    h2
+      | Quests to check out
+    table.table.table-bordered
+      thead
+        tr
+          th Name
+          th Creator
+          th
+      tbody
+        - @not_owned_quests.each do |quest|
+          tr
+            td = quest.name
+            td = quest.creator.name
+            td = link_to 'Show', quest
 
-table
-  thead
-    tr
-      th Name
-      th Description
-      th Creator
-      th Signed Users
-      th
-      th
-      th
-      th
+  .col-md-8
+    h2
+      | Manage your quests
+    - unless @owned_quests.empty?
+      table.table.table-bordered
+        thead
+          tr
+            th Name
+            th colspan='3' Actions
+        tbody
+          - @owned_quests.each do |quest|
+            tr
+              td = quest.name
+              td = link_to 'Show', quest
+              td = link_to 'Edit', edit_quest_path(quest)
+              td = link_to 'Delete', quest, data: { confirm: 'Are you sure?' }, method: :delete
+    - else
+      hr
+      h4
+        | Create your first quest! ٩(◕‿◕)۶
+      hr
+    = link_to 'New Quest', new_quest_path, class: 'btn btn-success index-new-quest'
 
-  tbody
-    - @quests.each do |quest|
-      tr
-        td = quest.name
-        td = quest.description
-        td = quest.creator.id
-        td = quest.signed_users.pluck(:id)
-        td = link_to 'Show', quest
-        td = link_to 'Edit', edit_quest_path(quest)
-        td = link_to 'Destroy', quest, data: { confirm: 'Are you sure?' }, method: :delete
-        - if current_user_can_sign?(quest)
-          td = link_to 'SIGN', sign_path(quest), method: :patch
-        - elsif current_user_can_unsign?(quest)
-          td = link_to 'UNSIGN', unsign_path(quest), method: :delete
-        - elsif current_user_owner_of_quest(quest)
-          td owned
-
-= link_to 'New Quest', new_quest_path

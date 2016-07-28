@@ -6,12 +6,14 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   # GET /quests
   # GET /quests.json
   def index
-    @quests = Quest.all
+    @owned_quests = Quest.by_user(current_user)
+    @not_owned_quests = Quest.exclude_by_user(current_user)
   end
 
   # GET /quests/1
   # GET /quests/1.json
   def show
+    @missions = @quest.missions
   end
 
   # GET /quests/new

@@ -1,16 +1,22 @@
-p#notice = notice
+.container
+  h1.text-center
+    span.text-warning = @quest.name
+    |  quest by 
+    span.text-warning = @quest.creator.name
 
-p
-  strong Name:
-  = @quest.name
-p
-  strong Description:
-  = @quest.description
-p
-  strong Creator:
-  = @quest.creator.id
+  .col-md-5.description-show
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title
+          | Description:
+      .panel-body = @quest.description
+  .col-md-7.missions-quest-show
+    h2.text-center
+      | Missions
+    - @missions.each do |mission|
+      = render partial: 'web/quests/shared/mission', locals: { mission: mission }
 
-- if policy(@quest).edit?
+
+/- if policy(@quest).edit?
   = link_to 'Edit', edit_quest_path(@quest)
   '|
-= link_to 'Back', quests_path

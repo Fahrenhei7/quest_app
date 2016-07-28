@@ -19,12 +19,15 @@ module QuestApp
         Devise::PasswordsController.layout "centered_column"
         Web::Quests::QuestsController.layout ->{
           default_layout = %W()
-          centered_column = %W(index new show edit)
+          centered_column = %W(new edit)
+          temporary = %W(index show)
           case action_name
           when *default_layout
             'application'
           when *centered_column
             'centered_column'
+          when *temporary
+            'temporary'
           end
         }
         Web::StaticPagesController.layout ->{
@@ -48,3 +51,4 @@ module QuestApp
     end
   end
 end
+#YO HO HO

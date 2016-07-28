@@ -22,6 +22,14 @@ class Quest < ApplicationRecord
   validates :name, presence: true, length: { minimum: 4, maximum: 45 }
   validates :description, presence: true, length: { minimum: 15, maximum: 600 }
 
+  scope :by_user, ->(user) {
+    where(creator: user)
+  }
+
+  scope :exclude_by_user, ->(user) {
+    where.not(creator: user)
+  }
+
 
 
 end
