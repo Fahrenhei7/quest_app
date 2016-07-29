@@ -12,6 +12,12 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def new
     @mission = current_quest.missions.new
     authorize @mission
+
+    respond_to do |format|
+      format.js { render file: 'web/quests/quests/remote/new_mission', layout: false}
+      format.html { }
+    end
+
   end
 
   def edit
@@ -26,9 +32,11 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
       if @mission.save
         format.html { redirect_to quest_path(current_quest), notice: 'Mission was successfully created.' }
         format.json { render :show, status: :created, location: @mission }
+        format.js {  }
       else
         format.html { render :new }
         format.json { render json: @mission.errors, status: :unprocessable_entity }
+        format.js {  }
       end
     end
   end

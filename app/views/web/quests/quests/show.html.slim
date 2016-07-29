@@ -15,6 +15,7 @@
       | Missions
     - @missions.each do |mission|
       = render partial: 'web/quests/shared/mission', locals: { mission: mission }
+    = link_to 'Add mission', new_quest_mission_path(@quest), remote: true, class: 'btn btn-primary', id: 'new-mission-button'
 
 
 /- if policy(@quest).edit?

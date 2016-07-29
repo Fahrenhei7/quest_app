@@ -1,0 +1,6 @@
+div
+  = simple_form_for :mission, url: quest_missions_path, method: :post, remote: true do |f|
+    = f.input :task
+    = f.input :difficulty
+    = f.button :submit
+
