@@ -30,5 +30,7 @@ class User < ApplicationRecord
   has_many :quest_user_joins #join table assosiate
   has_many :signed_quests, through: :quest_user_joins, source: :quest
 
+  has_and_belongs_to_many :missions
+
   validates :name, presence: true, length: { minimum: 2, maximum: 25 }
 end

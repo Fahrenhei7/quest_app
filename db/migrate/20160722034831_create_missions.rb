@@ -2,7 +2,7 @@ class CreateMissions < ActiveRecord::Migration[5.0]
   def change
     create_table :missions do |t|
       t.text :task
-      t.string :key
+      t.string :keys, array: true, default: []
       t.references :quest
       t.integer :difficulty
 

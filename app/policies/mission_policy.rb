@@ -28,6 +28,12 @@ class MissionPolicy < ApplicationPolicy
     user == quest.creator
   end
 
+  def check_key?
+    user != quest.creator && !mission.users.include?(user)
+  end
+
+  #whats wrong?
+
 end
 
 

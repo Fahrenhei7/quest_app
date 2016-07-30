@@ -1,6 +1,12 @@
-div
-  = simple_form_for :mission, url: quest_missions_path, method: :post, remote: true do |f|
+.new-mission-from-quest-show
+  = simple_form_for @mission, url: quest_missions_path, method: :post, remote: true, html: { class: 'form-with-mission-keys' } do |f|
     = f.input :task
-    = f.input :difficulty
+    h4.text-center
+      | Keys
+    .keys.row
+      = f.input :keys, as: :array, wrapper_html: { class: 'single-key col-xs-4' }, label: false
+    #add-key-button.btn.btn-default.btn-xs
+      span.glyphicon.glyphicon-plus
+    = f.input :difficulty, as: :string
     = f.button :submit
 

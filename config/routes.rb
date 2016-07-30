@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         resources :quests do
           resources :missions, shallow: true
         end
+        post 'missions/:id/check', to: 'missions#check_key', as: 'check_key'
       end
 
       patch '/quests/:id/sign', to: 'quests#sign', as: 'sign'

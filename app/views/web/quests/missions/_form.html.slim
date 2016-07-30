@@ -1,18 +1,5 @@
-= form_for @mission, url: quest_missions_path, method: :post do |f|
-  - if @mission.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@mission.errors.count, "error")} prohibited this mission from being saved:"
-      ul
-        - @mission.errors.full_messages.each do |message|
-          li = message
-
-  .field
-    = f.label :task
-    = f.text_area :task
-  .field
-    = f.label :key
-    = f.text_field :key
-  .field
-    = f.label :difficulty
-    = f.number_field :difficulty
-  .actions = f.submit
+= simple_form_for @mission, url: quest_missions_path, method: :post do |f|
+  = f.input :task
+  = f.input :keys, as: :array, wrapper_html: { class: 'single-key' }
+  = f.input :difficulty, as: :string
+  = f.submit

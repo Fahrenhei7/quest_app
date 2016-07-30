@@ -4,3 +4,14 @@
     b
       | Difficulty: 
       = mission.difficulty
+    ul
+      - mission.keys.each do |k|
+        li = k
+
+    - if policy(mission).check_key?
+      = simple_form_for :mission_key, url: check_key_path(mission), method: :post do |f|
+        = f.input :key
+    - elsif owner_of_mission(mission, current_user)
+      | You are creator of this mission.
+    - else
+      | Solved
