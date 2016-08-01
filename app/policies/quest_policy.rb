@@ -8,16 +8,18 @@ class QuestPolicy < ApplicationPolicy
     @quest = quest
   end
 
-  def edit?
-    user == quest.creator
+  %w(edit? update? destroy?).each do |m|
+    define_method("#{m}") do
+      user == quest.creator
+    end
   end
 
-  def update?
-    user == quest.creator
+  def sign?
+    quest.signed_users.exclude?(user) && quest.creator != user
   end
 
-  def destroy?
-    user == quest.creator
+  def unsign?
+    quest.signed_users.include?(user) && quest.creator != user
   end
 
 end

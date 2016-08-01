@@ -1,4 +1,5 @@
 $(".new-mission-from-quest-show").remove();
+
 $("#new-mission-button").show();
 $(".missions").append('<%= j render(partial: 'web/quests/shared/mission', locals: {mission: @mission}) %>');
 

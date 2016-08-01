@@ -6,8 +6,7 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     @missions = current_quest.missions
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @mission = current_quest.missions.new
@@ -17,7 +16,6 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
       format.js { render file: 'web/quests/quests/remote/new_mission', layout: false}
       format.html { }
     end
-
   end
 
   def edit
@@ -31,12 +29,10 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     respond_to do |format|
       if @mission.save
         format.html { redirect_to quest_path(current_quest), notice: 'Mission was successfully created.' }
-        format.json { render :show, status: :created, location: @mission }
         format.js { render file: 'web/quests/quests/remote/create_mission', layout: false }
       else
         format.html { render :new }
-        format.json { render json: @mission.errors, status: :unprocessable_entity }
-        format.js {  }
+        format.js { render file: 'web/quests/quests/remote/new_mission', layout: false  }
       end
     end
   end
@@ -44,14 +40,10 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def update
     authorize @mission
 
-    respond_to do |format|
-      if @mission.update(mission_params)
-        format.html { redirect_to @mission, notice: 'Mission was successfully updated.' }
-        format.json { render :show, status: :ok, location: @mission }
-      else
-        format.html { render :edit }
-        format.json { render json: @mission.errors, status: :unprocessable_entity }
-      end
+    if @mission.update(mission_params)
+      redirect_to @mission, notice: 'Mission was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -59,17 +51,13 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     authorize @mission
 
     @mission.destroy
-    respond_to do |format|
-      format.html { redirect_to @mission.quest, notice: 'Mission was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to @mission.quest, notice: 'Mission was successfully destroyed.'
   end
 
   def check_key
     authorize @mission
 
     checking = CheckKey.new(current_user, @mission, submitted_key_params)
-
     if checking.call
       flash[:notice] = 'SOLVED!'
       redirect_to authenticated_root_path

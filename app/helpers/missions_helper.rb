@@ -1,7 +1,7 @@
 module MissionsHelper
 
- def owner_of_mission(mission, user)
+  def owner_of_mission(user, mission)
     mission.quest.creator == user
- end
- 
+  end
+
 end

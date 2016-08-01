@@ -98,6 +98,8 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
       sign_in(user)
     end
 
+    it_behaves_like 'public access to missions'
+
     context 'is the owner of mission\'s quest' do
 
       describe 'GET #new' do
@@ -165,7 +167,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         context 'with invalid data' do
           let(:invalid_data) { FactoryGirl.attributes_for(:mission,
                                                           task: '',
-                                                          key: 'newkeyfromspec') }
+                                                          keys: ['newkeyfromspec']) }
           before(:each) { patch :update, params: { id: mission, mission: invalid_data } }
 
           it 'renders :edit template' do
@@ -173,7 +175,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           end
           it "doesn't update record in database" do
             mission.reload
-            expect(mission.key).not_to eq('newkeyfromspec')
+            expect(mission.keys).not_to include('newkeyfromspec')
           end
         end
       end

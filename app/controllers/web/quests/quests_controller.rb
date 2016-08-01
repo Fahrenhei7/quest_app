@@ -3,94 +3,73 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy ]
 
 
-  # GET /quests
-  # GET /quests.json
   def index
     @owned_quests = Quest.by_user(current_user)
     @not_owned_quests = Quest.exclude_by_user(current_user)
   end
 
-  # GET /quests/1
-  # GET /quests/1.json
   def show
     @missions = @quest.missions
   end
 
-  # GET /quests/new
   def new
     @quest = current_user.created_quests.new
   end
 
-  # GET /quests/1/edit
   def edit
     authorize @quest
   end
 
-  # POST /quests
-  # POST /quests.json
   def create
     @quest = current_user.created_quests.new(quest_params)
 
-    respond_to do |format|
-      if @quest.save
-        format.html { redirect_to @quest, notice: 'Quest was successfully created.' }
-        format.json { render :show, status: :created, location: @quest }
-      else
-        format.html { render :new }
-        format.json { render json: @quest.errors, status: :unprocessable_entity }
-      end
+    if @quest.save
+      redirect_to @quest, notice: 'Quest was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /quests/1
-  # PATCH/PUT /quests/1.json
   def update
     authorize @quest
 
-    respond_to do |format|
-      if @quest.update(quest_params)
-        format.html { redirect_to @quest, notice: 'Quest was successfully updated.' }
-        format.json { render :show, status: :ok, location: @quest }
-      else
-        format.html { render :edit }
-        format.json { render json: @quest.errors, status: :unprocessable_entity }
-      end
+    if @quest.update(quest_params)
+      redirect_to @quest, notice: 'Quest was successfully updated.'
+    else
+      render :edit
     end
   end
 
-  # PATCH /quests/:id/sign
-  # ADD JSON RESPONSE
   def sign
-    @quest.signed_users << current_user
-    redirect_to @quest
-  rescue ActiveRecord::RecordInvalid => e
-    redirect_to @quest, flash[:danger] = e
+    authorize @quest
+
+    sign_user = SignToQuest.new(current_user, @quest)
+    sign_user.call
+    redirect_to @quest, notice: "Signed to quest"
   end
 
-  # DELETE /quests/:id/unsign
-  # ADD JSON RESPONSE
   def unsign
-    @quest.signed_users.delete current_user
+    authorize @quest
+
+    @quest.signed_users.delete(current_user)
+    unsign_user = UnsignFromQuest.new(current_user, @quest)
+    unsign_user.call
+    redirect_to @quest, notice: "Unsigned from quest"
   end
 
-  # DELETE /quests/1
-  # DELETE /quests/1.json
   def destroy
     authorize @quest
+
     @quest.destroy
-    respond_to do |format|
-      format.html { redirect_to quests_url, notice: 'Quest was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to quests_url, notice: 'Quest was successfully destroyed.'
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_quest
     @quest = Quest.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def quest_params
     params.require(:quest).permit(:name, :description, :creator_id)
   end

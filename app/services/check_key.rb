@@ -15,7 +15,6 @@ class CheckKey
     else
       false
     end
-
   end
 
 

@@ -6,7 +6,6 @@
 jQuery ->
   $(document).on 'click', '#add-key-button', ->
     $lastkeyField = $('.single-key:last-of-type').clone()
-    $lastkeyField.find('label').remove()
-    $lastkeyField.find('input').val("")
+    $lastkeyField.val("")
 
-    $(".keys").append($lastkeyField)
+    $(".mission_keys").append($lastkeyField)

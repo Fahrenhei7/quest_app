@@ -8,31 +8,15 @@ class MissionPolicy < ApplicationPolicy
     @quest = mission.quest
   end
 
-  def new?
-    user == quest.creator
-  end
-
-  def create?
-    user == quest.creator
-  end
-
-  def edit?
-    user == quest.creator
-  end
-
-  def update?
-    user == quest.creator
-  end
-
-  def destroy?
-    user == quest.creator
+  %w(new? create? edit? update? destroy?).each do |m|
+    define_method("#{m}") do
+      user == quest.creator
+    end
   end
 
   def check_key?
-    user != quest.creator && !mission.users.include?(user)
+    user != quest.creator && !mission.users.include?(user) && quest.signed_users.include?(user)
   end
-
-  #whats wrong?
 
 end
 

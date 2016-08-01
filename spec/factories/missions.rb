@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :mission do
     task "Mission text factory girl"
-    key "superkey"
+    keys ["superkey_one", "superkey_two"]
     association :quest
-    difficulty 1
+    difficulty "hard"
   end
 end

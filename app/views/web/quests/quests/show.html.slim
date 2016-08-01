@@ -5,6 +5,12 @@
     span.text-warning = @quest.creator.name
 
   .col-md-5.description-show
+    - if policy(@quest).sign?
+      = link_to 'Sign to quest', sign_path, method: :patch
+    - elsif policy(@quest).unsign?
+      = link_to 'Unsign from quest', unsign_path, method: :delete
+    - else
+      | Can't sign or unsign
     .panel.panel-default
       .panel-heading
         h3.panel-title
@@ -16,7 +22,9 @@
         | Missions
       - @missions.each do |mission|
         = render partial: 'web/quests/shared/mission', locals: { mission: mission }
-    = link_to 'Add mission', new_quest_mission_path(@quest), remote: true, class: 'btn btn-primary', id: 'new-mission-button'
+    - if policy(@quest).edit?
+      // checking if can edit quest - can add missions
+      = link_to 'Add mission', new_quest_mission_path(@quest), remote: true, class: 'btn btn-primary', id: 'new-mission-button'
 
 
 /- if policy(@quest).edit?
