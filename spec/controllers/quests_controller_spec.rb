@@ -256,7 +256,29 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
           end
         end
       end
+
+
+      describe 'DELETE #unsign' do
+        context 'as already signed user' do
+          let(:quest) { FactoryGirl.create(:quest, signed_users: [user]) }
+          it 'redirects to quest page' do
+            delete :unsign, params: { id: quest }
+            expect(response).to redirect_to(quest)
+          end
+          it 'changes database' do
+            expect {
+              delete :unsign, params: { id: quest }
+            }.to change(quest.signed_users, :count).by(-1)
+          end
+        end
+        context 'as non-signed user' do
+          it 'redirects to quests path' do
+            delete :unsign, params: { id: quest }
+            expect(response).to redirect_to(quests_path)
+          end
+        end
+      end
+
     end
   end
-
 end
