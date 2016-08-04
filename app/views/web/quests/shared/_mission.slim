@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-body
-    - if not_signed_to_quest(current_user, @quest)
+    - unless policy(mission).see_task?
       | You can't see tasks before signing in
     - else
       p = mission.task

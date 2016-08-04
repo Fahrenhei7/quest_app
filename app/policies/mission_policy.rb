@@ -18,6 +18,10 @@ class MissionPolicy < ApplicationPolicy
     user != quest.creator && !mission.users.include?(user) && quest.signed_users.include?(user)
   end
 
+  def see_task?
+    quest.signed_users.include?(user) || user == quest.creator
+  end
+
 end
 
 

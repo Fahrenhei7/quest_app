@@ -88,6 +88,22 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         }.not_to change(Mission, :count)
       end
     end
+
+    describe 'POST #check_key' do
+      let(:mission) { FactoryGirl.create(:mission) }
+
+      it 'redirects to root path' do
+        post :check_key, params: { id: mission }
+        expect(response).to redirect_to(quests_path)
+      end
+      it 'doesn\'t change database' do
+        expect{
+          post :check_key, params: { id: mission }
+        }.not_to change(mission.users, :count)
+      end
+
+    end
+
   end
 
   describe 'authenticated user' do
