@@ -1,6 +1,6 @@
 class Web::Quests::QuestsController < Web::Quests::ApplicationController
   before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :sign, :unsign ]
 
 
   def index

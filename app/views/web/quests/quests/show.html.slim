@@ -6,7 +6,7 @@
 
   .col-md-5.description-show
     - if policy(@quest).sign?
-      = link_to 'Sign to quest', sign_path, method: :patch
+      = link_to 'Sign to quest', sign_path, method: :post
     - elsif policy(@quest).unsign?
       = link_to 'Unsign from quest', unsign_path, method: :delete
     - else

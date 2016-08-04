@@ -20,6 +20,7 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
       it { expect(assigns(:missions)).to eq(quest.missions) }
     end
 
+
   end
 
   describe 'guest user' do
@@ -61,6 +62,20 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
         expect(response).to redirect_to(new_user_session_url)
       end
     end
+
+    describe 'POST #sign' do
+      let(:quest) { FactoryGirl.create(:quest) }
+
+      it 'redirects to quests index path' do
+        post :sign, params: { id: quest }
+        expect(response).to redirect_to(new_user_session_url)
+      end
+      it 'does not update database' do
+        expect {
+          post :sign, params: { id: quest }
+        }.not_to change(quest.signed_users, :count)
+      end
+    end
   end
 
   describe 'authenticated user' do
@@ -88,6 +103,7 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
         expect(assigns(:quest)).to be_a_new(Quest)
       end
     end
+
     describe 'POST #create' do
       context 'valid data' do
         let(:valid_data) { FactoryGirl.attributes_for(:quest) }
@@ -174,6 +190,19 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
           expect(Quest.exists?(quest.id)).to be_falsy
         end
       end
+
+      describe 'POST #sign' do
+        it 'redirects to quests index path' do
+          post :sign, params: { id: quest }
+          expect(response).to redirect_to(quests_path)
+        end
+        it 'does not update database' do
+          expect {
+            post :sign, params: { id: quest }
+          }.not_to change(quest.signed_users, :count)
+        end
+      end
+
     end
 
     context 'is not the owner of quest' do
@@ -201,12 +230,32 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
       end
 
       describe 'DELETE #destroy' do
-        it 'redirects to quests page' do
+        it 'doesn\'t change database' do
           delete :destroy, params: { id: quest }
           expect(Quest.exists?(quest.id)).to be_truthy
         end
       end
 
+      describe 'POST #sign' do
+        it 'redirects to quest page' do
+          post :sign, params: { id: quest }
+          expect(response).to redirect_to(quest)
+        end
+        it 'changes database' do
+          expect {
+            post :sign, params: { id: quest }
+          }.to change(quest.signed_users, :count).by(1)
+        end
+
+        context 'as already signed user' do
+          let(:quest) { FactoryGirl.create(:quest, signed_users: [user]) }
+
+          it 'redirects to quests index page' do
+            post :sign, params: { id: quest }
+            expect(response).to redirect_to(quests_path)
+          end
+        end
+      end
     end
   end
 

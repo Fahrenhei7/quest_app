@@ -29,7 +29,7 @@ Rails.application.routes.draw do
         end
         post 'missions/:id/check_key', to: 'missions#check_key', as: 'check_key'
 
-        patch '/quests/:id/sign', to: 'quests#sign', as: 'sign'
+        post '/quests/:id/sign', to: 'quests#sign', as: 'sign'
         delete '/quests/:id/unsign', to: 'quests#unsign', as: 'unsign'
       end
 
