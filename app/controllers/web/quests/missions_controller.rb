@@ -60,7 +60,7 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     checking = CheckKey.new(current_user, @mission, submitted_key_params)
     if checking.call
       flash[:notice] = 'SOLVED!'
-      redirect_to authenticated_root_path
+      redirect_to @mission.quest
     end
   end
 

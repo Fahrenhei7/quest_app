@@ -92,13 +92,13 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
     describe 'POST #check_key' do
       let(:mission) { FactoryGirl.create(:mission) }
 
-      it 'redirects to root path' do
-        post :check_key, params: { id: mission }
+      it 'redirects to quests path' do
+        post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
         expect(response).to redirect_to(quests_path)
       end
       it 'doesn\'t change database' do
         expect{
-          post :check_key, params: { id: mission }
+          post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
         }.not_to change(mission.users, :count)
       end
 
@@ -209,6 +209,18 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         end
       end
 
+      describe 'POST #check_key' do
+        it 'redirects to quests path' do
+          post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+          expect(response).to redirect_to(quests_path)
+        end
+        it 'doesn\'t change database' do
+          expect{
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+          }.not_to change(mission.users, :count)
+        end
+      end
+
     end
 
     context 'is not the owner of mission\'s quest' do
@@ -272,6 +284,51 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         it 'does not delete record from database' do
           delete :destroy, params: { id: mission }
           expect(Mission.exists?(mission.id)).to be_truthy
+        end
+      end
+
+      context 'user is not signed to mission\'s quest' do
+        describe 'POST #check_key' do
+          it 'redirects to quests index path' do
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+            expect(response).to redirect_to(quests_path)
+          end
+          it 'doesn\'t change database' do
+            expect {
+              post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+            }.not_to change(mission.users, :count)
+          end
+        end
+
+      end
+
+      context 'user signed to mission\'s quest' do
+        let(:quest) { FactoryGirl.create(:quest, creator: user2, signed_users: [user]) }
+        let(:mission) { FactoryGirl.create(:mission, quest: quest) }
+
+        describe 'POST #check_key' do
+          context 'right key'do
+            it 'redirects to quest path' do
+              post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+              expect(response).to redirect_to(quest)
+            end
+            it 'updates record in database' do
+              expect {
+                post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+              }.to change(mission.users, :count).by(1)
+            end
+          end
+          context 'wrong key' do
+            it 'redirects to quest path' do
+              post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+              expect(response).to redirect_to(quest)
+            end
+            it 'does not update record in database' do
+              expect {
+                post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
+              }.not_to change(mission.users, :count)
+            end
+          end
         end
       end
     end
