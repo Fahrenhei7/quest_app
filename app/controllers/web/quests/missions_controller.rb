@@ -1,5 +1,6 @@
 class Web::Quests::MissionsController < Web::Quests::ApplicationController
-  before_action :set_mission, only: [:show, :edit, :update, :destroy, :check_key]
+  before_action :set_mission, only: [:show, :edit, :update, :destroy,
+                                     :check_key]
   before_action :authenticate_user!, except: [:index, :show, :check_key]
 
   def index
@@ -11,10 +12,10 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def new
     @mission = current_quest.missions.new
     authorize @mission
-
     respond_to do |format|
-      format.js { render file: 'web/quests/quests/remote/new_mission', layout: false}
-      format.html { }
+      format.js { render file: 'web/quests/quests/remote/new_mission',
+                  layout: false }
+      format.html {}
     end
   end
 
@@ -25,21 +26,22 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def create
     @mission = current_quest.missions.new(mission_params)
     authorize @mission
-
     respond_to do |format|
       if @mission.save
-        format.html { redirect_to quest_path(current_quest), notice: 'Mission was successfully created.' }
-        format.js { render file: 'web/quests/quests/remote/create_mission', layout: false }
+        format.html { redirect_to quest_path(current_quest),
+                      notice: 'Mission was successfully created.' }
+        format.js { render file: 'web/quests/quests/remote/create_mission',
+                    layout: false }
       else
         format.html { render :new }
-        format.js { render file: 'web/quests/quests/remote/new_mission', layout: false  }
+        format.js { render file: 'web/quests/quests/remote/new_mission',
+                    layout: false }
       end
     end
   end
 
   def update
     authorize @mission
-
     if @mission.update(mission_params)
       redirect_to @mission, notice: 'Mission was successfully updated.'
     else
@@ -49,17 +51,19 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
 
   def destroy
     authorize @mission
-
     @mission.destroy
     redirect_to @mission.quest, notice: 'Mission was successfully destroyed.'
   end
 
   def check_key
     authorize @mission
+    check_key = CheckKey.new(current_user, @mission, submitted_key_params)
 
-    checking = CheckKey.new(current_user, @mission, submitted_key_params)
-    if checking.call
+    if check_key.call
       flash[:notice] = 'SOLVED!'
+      redirect_to @mission.quest
+    else
+      flash[:notice] = 'Wrong key'
       redirect_to @mission.quest
     end
   end
@@ -77,5 +81,4 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def mission_params
     params.require(:mission).permit(:task, :quest_id, :difficulty, keys: [])
   end
-
 end

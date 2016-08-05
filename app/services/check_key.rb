@@ -1,5 +1,4 @@
 class CheckKey
-
   attr_reader :user, :mission, :params
 
   def initialize(user, mission, params)
@@ -16,6 +15,4 @@ class CheckKey
       false
     end
   end
-
-
 end

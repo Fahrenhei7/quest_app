@@ -1,5 +1,4 @@
 class UnsignFromQuest
-
   attr_reader :user, :quest
 
   def initialize(user, quest)
@@ -10,5 +9,4 @@ class UnsignFromQuest
   def call
     quest.signed_users.delete(user)
   end
-
 end

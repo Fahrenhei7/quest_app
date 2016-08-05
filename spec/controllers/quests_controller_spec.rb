@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Web::Quests::QuestsController, type: :controller do
-
   shared_examples 'public access to quests' do
-
     describe 'GET #index' do
       before(:each) { get :index }
 
@@ -19,12 +17,9 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
       it { expect(assigns(:quest)).to eq(quest) }
       it { expect(assigns(:missions)).to eq(quest.missions) }
     end
-
-
   end
 
   describe 'guest user' do
-
     it_behaves_like 'public access to quests'
 
     describe 'GET #new' do
@@ -137,7 +132,6 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
     context 'is the owner of quest' do
       let(:quest) { FactoryGirl.create(:quest, creator: user) }
 
-
       describe 'GET #edit' do
         before(:each) { get :edit, params: { id: quest } }
 
@@ -202,7 +196,6 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
           }.not_to change(quest.signed_users, :count)
         end
       end
-
     end
 
     context 'is not the owner of quest' do
@@ -257,7 +250,6 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
         end
       end
 
-
       describe 'DELETE #unsign' do
         context 'as already signed user' do
           let(:quest) { FactoryGirl.create(:quest, signed_users: [user]) }
@@ -278,7 +270,6 @@ RSpec.describe Web::Quests::QuestsController, type: :controller do
           end
         end
       end
-
     end
   end
 end

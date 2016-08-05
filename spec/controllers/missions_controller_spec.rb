@@ -25,7 +25,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
       it { expect(response).to render_template(:show) }
       it { expect(assigns(:mission)).to eq(mission) }
     end
-
   end
 
   describe 'guest user' do
@@ -42,13 +41,13 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
 
     describe 'POST #create' do
       it 'redirects to login page' do
-        post :create, params: {quest_id: quest, mission: FactoryGirl.attributes_for(:mission)}
+        post :create, params: { quest_id: quest, mission: FactoryGirl.attributes_for(:mission) }
         expect(response).to redirect_to(new_user_session_url)
       end
 
       it 'does not change database' do
         expect {
-          post :create, params: { quest_id: quest, mission: FactoryGirl.attributes_for(:mission)}
+          post :create, params: { quest_id: quest, mission: FactoryGirl.attributes_for(:mission) }
         }.not_to change(Mission, :count)
       end
     end
@@ -101,9 +100,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
         }.not_to change(mission.users, :count)
       end
-
     end
-
   end
 
   describe 'authenticated user' do
@@ -117,7 +114,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
     it_behaves_like 'public access to missions'
 
     context 'is the owner of mission\'s quest' do
-
       describe 'GET #new' do
         it 'assigns a new mission as @mission' do
           get :new, params: { quest_id: quest }
@@ -220,7 +216,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           }.not_to change(mission.users, :count)
         end
       end
-
     end
 
     context 'is not the owner of mission\'s quest' do
@@ -271,7 +266,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           mission.reload
           expect(mission.task).not_to eq('newtaskfromspec')
         end
-
       end
 
       describe 'DELETE #destroy' do
@@ -299,7 +293,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
             }.not_to change(mission.users, :count)
           end
         end
-
       end
 
       context 'user signed to mission\'s quest' do
@@ -307,7 +300,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         let(:mission) { FactoryGirl.create(:mission, quest: quest) }
 
         describe 'POST #check_key' do
-          context 'right key'do
+          context 'right key' do
             it 'redirects to quest path' do
               post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
               expect(response).to redirect_to(quest)
@@ -332,6 +325,5 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         end
       end
     end
-
   end
 end

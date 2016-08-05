@@ -1,5 +1,4 @@
 class SignToQuest
-
   attr_reader :user, :quest
 
   def initialize(user, quest)
@@ -10,5 +9,4 @@ class SignToQuest
   def call
     quest.signed_users << user
   end
-
 end

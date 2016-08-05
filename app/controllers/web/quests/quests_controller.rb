@@ -1,7 +1,8 @@
 class Web::Quests::QuestsController < Web::Quests::ApplicationController
-  before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :sign, :unsign ]
-
+  before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign,
+                                   :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update,
+                                            :destroy, :sign, :unsign]
 
   def index
     @owned_quests = Quest.by_user(current_user)
@@ -45,7 +46,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
 
     sign_user = SignToQuest.new(current_user, @quest)
     sign_user.call
-    redirect_to @quest, notice: "Signed to quest"
+    redirect_to @quest, notice: 'Signed to quest'
   end
 
   def unsign
@@ -54,7 +55,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
     @quest.signed_users.delete(current_user)
     unsign_user = UnsignFromQuest.new(current_user, @quest)
     unsign_user.call
-    redirect_to @quest, notice: "Unsigned from quest"
+    redirect_to @quest, notice: 'Unsigned from quest'
   end
 
   def destroy
@@ -73,5 +74,4 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   def quest_params
     params.require(:quest).permit(:name, :description, :creator_id)
   end
-
 end
