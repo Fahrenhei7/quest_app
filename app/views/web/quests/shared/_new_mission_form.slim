@@ -2,8 +2,10 @@
   = simple_form_for @mission, url: quest_missions_path, method: :post, remote: true, html: { class: 'form-with-mission-keys' } do |f|
     = f.input :task
     h4.text-center
-      | Keys
-    = f.input :keys, as: :array, label: false, wrapper_html: { class: 'keys' }
+      | Keys 
+      - @mission.errors[:keys].each do |em|
+        p.errors-keys = em
+    = f.input :keys, as: :array, label: false, wrapper_html: { class: 'keys' }, error: false
     #add-key-button.btn.btn-default.btn-xs
       span.glyphicon.glyphicon-plus
     = f.input :difficulty, as: :string
