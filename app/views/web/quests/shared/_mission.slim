@@ -1,5 +1,5 @@
 .panel.panel-default
-  .panel-body
+  .panel-body.mission-card
     - unless policy(mission).see_task?
       | You can't see tasks before signing in
     - else
@@ -11,8 +11,9 @@
         - mission.keys.each do |k|
           li = k
       - if policy(mission).check_key?
-        = simple_form_for :mission_key, url: check_key_path(mission), method: :post do |f|
-          = f.input :key
+        = simple_form_for :mission_key, url: check_key_path(mission), method: :post, html: { class: 'form-inline' } do |f|
+          = f.input :key, required: false
+          = f.button :submit, 'Submit'
       - elsif owner_of_mission(current_user, mission)
         | You are creator of this mission.
       - else

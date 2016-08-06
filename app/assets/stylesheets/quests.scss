@@ -11,6 +11,8 @@
   width: 100%;
 }
 
+// show as creator
+
 .description-show {
   margin-top: 40px;
 }
@@ -44,10 +46,18 @@
   }
 }
 
-
 .errors-keys {
   color: #a94442;
   font-size: 14px;
   margin-top: 5px;
 }
 
+// show as non-creator
+
+.mission-card {
+  form {
+    input {
+      margin-left: 5px;
+    }
+  }
+}
