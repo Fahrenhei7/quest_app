@@ -3,14 +3,15 @@
     span.text-warning = @quest.name
     |  quest by 
     span.text-warning = @quest.creator.name
-
-  .col-md-5.description-show
+  .text-center
     - if policy(@quest).sign?
-      = link_to 'Sign to quest', sign_path, method: :post
+      = link_to 'Sign to quest', sign_path, method: :post, class: 'btn btn-primary btn-sm'
     - elsif policy(@quest).unsign?
-      = link_to 'Unsign from quest', unsign_path, method: :delete
+      = link_to 'Unsign from quest', unsign_path, method: :delete, class: 'btn btn-warning btn-sm'
     - else
       | Can't sign or unsign
+
+  .col-md-5.description-show
     .panel.panel-default
       .panel-heading
         h3.panel-title
