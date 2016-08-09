@@ -27,7 +27,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
     if @quest.save
       redirect_to @quest, notice: 'Quest was successfully created.'
     else
-      render :new
+      render :new, layout: 'centered_column'
     end
   end
 

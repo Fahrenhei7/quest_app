@@ -1,40 +1,48 @@
 .container
   .col-md-4
-    h2
-      | Quests to check out
-    table.table.table-bordered
-      thead
-        tr
-          th Name
-          th Creator
-          th
-      tbody
-        - @not_owned_quests.each do |quest|
-          tr
-            td = quest.name
-            td = quest.creator.name
-            td = link_to 'Show', quest
-
-  .col-md-8
-    h2
+    h3
       | Manage your quests
     - unless @owned_quests.empty?
-      table.table.table-bordered
-        thead
-          tr
-            th Name
-            th colspan='3' Actions
+      table.table
         tbody
           - @owned_quests.each do |quest|
             tr
-              td = quest.name
-              td = link_to 'Show', quest
-              td = link_to 'Edit', edit_quest_path(quest)
-              td = link_to 'Delete', quest, data: { confirm: 'Are you sure?' }, method: :delete
+              td = link_to "#{quest.name}", quest
+              td.quest-manage-buttons-col
+                .btn-group.owned-quest-control-group
+                  = link_to 'Edit', edit_quest_path(quest), class: 'btn btn-xs btn-primary'
+                  = link_to 'Delete', quest, data: { confirm: 'Are you sure?' }, \
+                      method: :delete, class: 'btn btn-xs btn-danger'
     - else
       hr
       h4
         | Create your first quest! ٩(◕‿◕)۶
       hr
-    = link_to 'New Quest', new_quest_path, class: 'btn btn-success index-new-quest'
-
+    = link_to 'New Quest', new_quest_path,\
+      class: 'btn-xs btn btn-primary new-quest-index'
+  /-----------------
+  .col-md-4
+    h3
+      | Quests to check out
+    table.table
+      tbody
+        - @not_owned_quests.each do |quest|
+          tr
+            td
+              = link_to "#{quest.name}", quest
+            td.quest-author-col
+              | by 
+              = link_to quest.creator.name, '#'
+  /-----------------
+  .col-md-4
+    h3
+      | Top users
+    table.table
+      tbody
+        tr
+          td
+            | 1
+          td
+            | John
+          td
+            | 38

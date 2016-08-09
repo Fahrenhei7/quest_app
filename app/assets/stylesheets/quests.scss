@@ -7,57 +7,101 @@
   resize: none;
 }
 
-.index-new-quest {
+// quests/index
+.quest-author-col {
+  text-align: right;
+  color: #e3e3e3;
+  a {
+    color: inherit;
+  }
+}
+.quest-manage-buttons-col {
+  text-align: right;
+}
+.new-quest-index {
   width: 100%;
 }
 
-// show as creator
 
-.description-show {
-  margin-top: 40px;
-}
 
-.new-mission-from-quest-show {
-  padding: 10px;
-  background-color: #e3e3e3;
-  border-radius: 10px;
 
-  #add-key-button {
-    width: 100%;
-  }
-}
 
-.keys {
-  display: flex;
 
-  flex-flow: row wrap;
-  flex-wrap: warp;
-  justify-content: flex-start;
-}
 
-.single-key {
-  box-sizing: border-box;
-  width: 32%;
-  margin-bottom: 5px;
-  margin-left: 2%;
 
-  &:nth-child(3n+1) {
-    margin-left: 0;
-  }
-}
 
-.errors-keys {
-  color: #a94442;
-  font-size: 14px;
-  margin-top: 5px;
-}
 
-// show as non-creator
 
-.mission-card {
-  form {
-    input {
-      margin-left: 5px;
-    }
-  }
-}
+
+
+
+
+//------------
+
+//.index-new-quest {
+  //width: 100%;
+//}
+
+//// show as creator
+
+//.description-show {
+  //margin-top: 40px;
+//}
+
+//.new-mission-from-quest-show {
+  //padding: 10px;
+  //background-color: #e3e3e3;
+  //border-radius: 10px;
+
+  //#add-key-button {
+    //width: 100%;
+  //}
+//}
+
+//.keys {
+  //display: flex;
+
+  //flex-flow: row wrap;
+  //flex-wrap: warp;
+  //justify-content: flex-start;
+//}
+
+//.single-key {
+  //box-sizing: border-box;
+  //width: 32%;
+  //margin-bottom: 5px;
+  //margin-left: 2%;
+
+  //&:nth-child(3n+1) {
+    //margin-left: 0;
+  //}
+//}
+
+//.errors-keys {
+  //color: #a94442;
+  //font-size: 14px;
+  //margin-top: 5px;
+//}
+
+//// show as non-creator
+
+//.mission-card {
+  //form {
+    //input {
+      //margin-left: 5px;
+    //}
+  //}
+//}
+
+//.owned-quest-panel {
+  //text-align: center;
+//}
+
+//.owned-quest-link-index {
+  //font-size: 17px;
+//}
+
+//.owned-quest-control-group {
+  //margin-top: 10px;
+
+//}
