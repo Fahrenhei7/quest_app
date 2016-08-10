@@ -10,7 +10,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   end
 
   def show
-    @missions = @quest.missions
+    @missions = MissionDecorator.decorate_collection(@quest.missions)
   end
 
   def new

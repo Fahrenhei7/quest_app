@@ -21,23 +21,17 @@
 .new-quest-index {
   width: 100%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
+//------------
+// quests/show
+.mission-show-key {
+  margin-right: 4px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
 
 
 //------------
-
 //.index-new-quest {
   //width: 100%;
 //}

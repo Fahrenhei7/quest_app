@@ -15,6 +15,8 @@ gem 'pundit'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
+gem 'draper', github: 'drapergem/draper'
+gem 'activemodel-serializers-xml', github: 'rails/activemodel-serializers-xml'
 
 gem 'rubocop', require: false
 

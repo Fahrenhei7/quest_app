@@ -1,5 +1,4 @@
 class MissionPolicy < ApplicationPolicy
-
   attr_reader :user, :quest, :mission
 
   def initialize(user, mission)
@@ -9,19 +8,16 @@ class MissionPolicy < ApplicationPolicy
   end
 
   %w(new? create? edit? update? destroy?).each do |m|
-    define_method("#{m}") do
+    define_method(m) do
       user == quest.creator
     end
   end
 
   def check_key?
-    user != quest.creator && !mission.users.include?(user) && quest.signed_users.include?(user)
+    user != quest.creator && !mission.users.include?(user)
   end
 
-  def see_task?
-    quest.signed_users.include?(user) || user == quest.creator
-  end
-
+  #def see_task?
+    #quest.signed_users.include?(user) || user == quest.creator
+  #end
 end
-
-

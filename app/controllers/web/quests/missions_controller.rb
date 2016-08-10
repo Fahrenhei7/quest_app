@@ -1,7 +1,7 @@
 class Web::Quests::MissionsController < Web::Quests::ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy,
                                      :check_key]
-  before_action :authenticate_user!, except: [:index, :show, :check_key]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @missions = current_quest.missions

@@ -1,0 +1,8 @@
+
+  def is_solved_by_user?(user)
+    mission.users.include?(user)
+  end
+
+  def is_owned_by_user?(user)
+    mission.quest.creator == user
+  end

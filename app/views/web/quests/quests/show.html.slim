@@ -12,14 +12,13 @@
       | Can't sign or unsign
 
   .col-md-5.description-show
-    .panel.panel-default
-      .panel-heading
-        h3.panel-title
-          | Description:
-      .panel-body = @quest.description
+    .col-md-12
+      h3.text-center
+        | Description
+      p = @quest.description
   .col-md-7.missions-quest-show
-    .missions
-      h2.text-center
+    .missions.col-md-12
+      h3.text-center
         | Missions
       - @missions.each do |mission|
         = render partial: 'web/quests/shared/mission', locals: { mission: mission }
