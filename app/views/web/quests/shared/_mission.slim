@@ -9,16 +9,20 @@
         span.label.label-primary.mission-show-key = k
 
   .panel-footer
-    - if policy(mission).check_key?
+    - case
+    - when policy(mission).check_key?
       = simple_form_for :mission_key, url: check_key_path(mission), method: :post do |f|
         .input-group
           = f.input :key, required: false, label: false
           .input-group-btn
             = f.button :submit, 'Submit'
-    - elsif mission.is_solved_by_user?(current_user)
+    - when mission.is_solved_by_user?(current_user)
       span.glyphicon.glyphicon-ok-circle
-    - elsif policy(mission).edit?
+    - when policy(mission).edit?
       .btn-group
         = link_to 'Edit', '#', class: 'btn btn-sm btn-primary'
         = link_to 'Delete', '#', data: { confirm: 'Are you sure?' }, \
             method: :delete, class: 'btn btn-sm btn-danger'
+    - when !current_user
+        = link_to 'Sign up', new_user_registration_path, class: 'btn btn-default'
+        = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'
