@@ -30,6 +30,28 @@
   }
 }
 
+// creator form
+#add-key-button {
+  width: 100%;
+}
+.keys {
+  display: flex;
+
+  flex-flow: row wrap;
+  flex-wrap: warp;
+  justify-content: flex-start;
+}
+.single-key {
+  box-sizing: border-box;
+  width: 32%;
+  margin-bottom: 5px;
+  margin-left: 2%;
+
+  &:nth-child(3n+1) {
+    margin-left: 0;
+  }
+}
+//------------
 
 //------------
 //.index-new-quest {
@@ -58,17 +80,6 @@
   //flex-flow: row wrap;
   //flex-wrap: warp;
   //justify-content: flex-start;
-//}
-
-//.single-key {
-  //box-sizing: border-box;
-  //width: 32%;
-  //margin-bottom: 5px;
-  //margin-left: 2%;
-
-  //&:nth-child(3n+1) {
-    //margin-left: 0;
-  //}
 //}
 
 //.errors-keys {

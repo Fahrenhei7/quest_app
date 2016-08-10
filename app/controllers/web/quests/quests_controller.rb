@@ -7,6 +7,8 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   def index
     @owned_quests = Quest.by_user(current_user)
     @not_owned_quests = Quest.exclude_by_user(current_user)
+    @top_users = User.order(points: :desc).limit(15)
+
   end
 
   def show

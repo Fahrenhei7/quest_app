@@ -17,6 +17,7 @@
 #  updated_at             :datetime         not null
 #  name                   :string
 #  created_quests_id      :integer
+#  points                 :integer
 #
 
 FactoryGirl.define do
