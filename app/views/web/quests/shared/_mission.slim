@@ -1,4 +1,5 @@
-.panel.panel-default
+.panel.panel-default.single-mission
+  .corner-ribbon(class="#{mission.difficulty}") = mission.cost
   .panel-body
     /- unless policy(mission).see_task?
       /| You can't see tasks before signing in

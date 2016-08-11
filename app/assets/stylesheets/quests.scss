@@ -11,20 +11,63 @@
 .quest-author-col {
   text-align: right;
   color: #e3e3e3;
+
   a {
     color: inherit;
   }
 }
+
 .quest-manage-buttons-col {
   text-align: right;
 }
+
 .new-quest-index {
   width: 100%;
 }
+
 //------------
 // quests/show
+.single-mission {
+  word-wrap: break-word;
+  position: relative;
+  overflow: hidden;
+
+  .corner-ribbon {
+    width: 100px;
+    height: 17px;
+    position: absolute;
+
+    //background-color: #e00;
+    top: 10px;
+    right: -33.3px;
+    left: auto;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+
+    &.easy {
+      background-color: #316af0;
+    }
+
+    &.medium {
+      background-color: #7f1ff0;
+    }
+
+    &.hard {
+      background-color: #fd2612;
+    }
+
+    &.legendary {
+      background-color: #ee912f;
+    }
+  }
+}
+
 .mission-show-key {
   margin-right: 4px;
+
   &:last-child {
     margin-right: 0;
   }
@@ -34,13 +77,14 @@
 #add-key-button {
   width: 100%;
 }
+
 .keys {
   display: flex;
-
   flex-flow: row wrap;
   flex-wrap: warp;
   justify-content: flex-start;
 }
+
 .single-key {
   box-sizing: border-box;
   width: 32%;
@@ -53,60 +97,64 @@
 }
 //------------
 
+.description-show {
+  word-wrap: break-word;
+}
+
 //------------
 //.index-new-quest {
-  //width: 100%;
+//width: 100%;
 //}
 
 //// show as creator
 
 //.description-show {
-  //margin-top: 40px;
+//margin-top: 40px;
 //}
 
 //.new-mission-from-quest-show {
-  //padding: 10px;
-  //background-color: #e3e3e3;
-  //border-radius: 10px;
+//padding: 10px;
+//background-color: #e3e3e3;
+//border-radius: 10px;
 
-  //#add-key-button {
-    //width: 100%;
-  //}
+//#add-key-button {
+//width: 100%;
+//}
 //}
 
 //.keys {
-  //display: flex;
+//display: flex;
 
-  //flex-flow: row wrap;
-  //flex-wrap: warp;
-  //justify-content: flex-start;
+//flex-flow: row wrap;
+//flex-wrap: warp;
+//justify-content: flex-start;
 //}
 
 //.errors-keys {
-  //color: #a94442;
-  //font-size: 14px;
-  //margin-top: 5px;
+//color: #a94442;
+//font-size: 14px;
+//margin-top: 5px;
 //}
 
 //// show as non-creator
 
 //.mission-card {
-  //form {
-    //input {
-      //margin-left: 5px;
-    //}
-  //}
+//form {
+//input {
+//margin-left: 5px;
+//}
+//}
 //}
 
 //.owned-quest-panel {
-  //text-align: center;
+//text-align: center;
 //}
 
 //.owned-quest-link-index {
-  //font-size: 17px;
+//font-size: 17px;
 //}
 
 //.owned-quest-control-group {
-  //margin-top: 10px;
+//margin-top: 10px;
 
 //}
