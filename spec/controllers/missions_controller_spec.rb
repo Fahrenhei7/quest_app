@@ -301,7 +301,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
             it 'updates user\'s pts in database' do
               post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
               user.reload
-              expect(user.points).to eq(5)
+              expect(user.points).to eq(mission.cost)
             end
           end
           context 'wrong key' do
