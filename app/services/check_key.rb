@@ -10,9 +10,8 @@ class CheckKey
   def call
     if mission.keys.include? key_params
       add_points = AddPoints.new(user, mission.cost)
-      if add_points.call
-        mission.users << user
-      end
+      add_points.call
+      mission.users << user
       true
     else
       false
