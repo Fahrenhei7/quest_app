@@ -304,6 +304,23 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               expect(user.points).to eq(mission.cost)
             end
           end
+          context 'rigth key wrong case' do
+            let(:wrong_case_key) { "sUpeRkEy_ONe" }
+            it 'redirects to quest path' do
+              post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
+              expect(response).to redirect_to(quest)
+            end
+            it 'updates missionn\'s users in database' do
+              expect {
+                post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
+              }.to change(mission.users, :count).by(1)
+            end
+            it 'updates user\'s pts in database' do
+              post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
+              user.reload
+              expect(user.points).to eq(mission.cost)
+            end
+          end
           context 'wrong key' do
             it 'redirects to quest path' do
               post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }

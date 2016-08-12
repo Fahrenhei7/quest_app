@@ -4,7 +4,7 @@ class CheckKey
   def initialize(user, mission, params)
     @user = user
     @mission = mission
-    @key_params = params[:key].strip
+    @key_params = params[:key].strip.downcase
   end
 
   def call
