@@ -9,9 +9,14 @@ class CheckKey
 
   def call
     if mission.keys.include? key_params
+      mission.users << user
       add_points = AddPoints.new(user, mission.cost)
       add_points.call
-      mission.users << user
+      new_notification = CreateNotification.new(user, 0,
+                                               "You successfully done mission!",
+                                               {pts: mission.cost,
+                                                quest: mission.quest.name})
+      new_notification.call
       true
     else
       false

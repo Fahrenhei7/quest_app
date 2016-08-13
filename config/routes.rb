@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         resources :quests do
           resources :missions, shallow: true
         end
+        get '/manage_quests', to: 'quests#manage_quests'
         post 'missions/:id/check_key', to: 'missions#check_key', as: 'check_key'
 
         post '/quests/:id/sign', to: 'quests#sign', as: 'sign'

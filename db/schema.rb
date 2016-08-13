@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810150845) do
+ActiveRecord::Schema.define(version: 20160813034304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,24 @@ ActiveRecord::Schema.define(version: 20160810150845) do
     t.integer "user_id",    null: false
     t.index ["mission_id"], name: "index_missions_users_on_mission_id", using: :btree
     t.index ["user_id"], name: "index_missions_users_on_user_id", using: :btree
+  end
+
+  create_table "notification_user_joins", force: :cascade do |t|
+    t.integer  "notification_id"
+    t.integer  "user_id"
+    t.boolean  "checked"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["notification_id"], name: "index_notification_user_joins_on_notification_id", using: :btree
+    t.index ["user_id"], name: "index_notification_user_joins_on_user_id", using: :btree
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "body"
+    t.json     "info"
+    t.integer  "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "quest_user_joins", force: :cascade do |t|

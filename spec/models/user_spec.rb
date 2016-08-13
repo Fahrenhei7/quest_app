@@ -17,7 +17,7 @@
 #  updated_at             :datetime         not null
 #  name                   :string
 #  created_quests_id      :integer
-#  points                 :integer
+#  points                 :integer          default(0)
 #
 
 require 'rails_helper'

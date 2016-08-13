@@ -20,7 +20,7 @@ module QuestApp
         Web::Quests::QuestsController.layout ->{
           default_layout = %W()
           centered_column = %W(new edit)
-          temporary = %W(index show)
+          temporary = %W(index show manage_quests)
           case action_name
           when *default_layout
             'application'

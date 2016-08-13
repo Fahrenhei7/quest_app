@@ -1,15 +1,19 @@
 class Web::Quests::QuestsController < Web::Quests::ApplicationController
-  before_action :set_quest, only: [:show, :edit, :update, :sign, :unsign,
-                                   :destroy]
+  before_action :set_quest, only: [:edit, :update, :sign, :unsign, :destroy]
+  before_action :set_quest_and_missions, only: [:show]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update,
                                             :destroy, :sign, :unsign]
 
   def index
-    @owned_quests = Quest.by_user(current_user)
+    @notifications = current_user.notifications
     @not_owned_quests = Quest.exclude_by_user(current_user)
     @top_users = User.order(points: :desc).limit(15)
-
   end
+
+  def manage_quests
+    @quests = Quest.by_user(current_user)
+  end
+
 
   def show
     @missions = MissionDecorator.decorate_collection(@quest.missions)
@@ -71,6 +75,10 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
 
   def set_quest
     @quest = Quest.find(params[:id])
+  end
+
+  def set_quest_and_missions
+    @quest = Quest.includes(:missions).find(params[:id])
   end
 
   def quest_params
