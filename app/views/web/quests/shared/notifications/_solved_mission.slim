@@ -1,2 +1,7 @@
-span.glyphicon.glyphicon-plus
-| Gained #{notification.info["pts"]} pts for solving mission from #{notification.info["quest"]}!
+.notification-partial.panel.panel-success
+  .panel-body
+    | Gained 
+    b #{notification.info["pts"]}
+    |  pts for solving mission from 
+    b #{notification.info["quest"]}
+    |  quest!

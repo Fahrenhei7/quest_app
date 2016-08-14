@@ -2,14 +2,11 @@
   .col-md-4
     h3
       | Notifications
-    table.table
-      tbody
-        - if @notifications.empty?
-          | ¯\_(ツ)_/¯
-        - @notifications.each do |n|
-          tr
-            / helpers/notifications_helper.rb
-            td = render_notification(n)
+    - if @notifications.empty?
+      | ¯\_(ツ)_/¯
+    - @notifications.each do |n|
+        / helpers/notifications_helper.rb
+        = render_notification(n)
   /-----------------
   .col-md-4
     h3

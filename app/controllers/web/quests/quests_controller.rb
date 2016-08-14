@@ -5,7 +5,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
                                             :destroy, :sign, :unsign]
 
   def index
-    @notifications = current_user.notifications
+    @notifications = current_user.notifications.order(id: :desc).limit(15)
     @not_owned_quests = Quest.exclude_by_user(current_user)
     @top_users = User.order(points: :desc).limit(15)
   end
