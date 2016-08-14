@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160813034304) do
+ActiveRecord::Schema.define(version: 20160814120941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,9 +35,9 @@ ActiveRecord::Schema.define(version: 20160813034304) do
   create_table "notification_user_joins", force: :cascade do |t|
     t.integer  "notification_id"
     t.integer  "user_id"
-    t.boolean  "checked"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "checked",         default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["notification_id"], name: "index_notification_user_joins_on_notification_id", using: :btree
     t.index ["user_id"], name: "index_notification_user_joins_on_user_id", using: :btree
   end
@@ -84,6 +84,10 @@ ActiveRecord::Schema.define(version: 20160813034304) do
     t.string   "name"
     t.integer  "created_quests_id"
     t.integer  "points",                 default: 0
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["created_quests_id"], name: "index_users_on_created_quests_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

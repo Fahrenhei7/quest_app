@@ -24,7 +24,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable
 
   has_many :created_quests, class_name: 'Quest', foreign_key: :creator_id
 
@@ -36,4 +37,11 @@ class User < ApplicationRecord
   has_and_belongs_to_many :missions
 
   validates :name, presence: true, length: { minimum: 2, maximum: 25 }
+
+
+#remember user by default
+  def remember_me
+    true
+  end
+
 end
