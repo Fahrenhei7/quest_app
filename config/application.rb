@@ -43,6 +43,19 @@ module QuestApp
             'temporary'
           end
         }
+        Web::Quests::MissionsController.layout ->{
+          default_layout = %W()
+          centered_column = %W(edit)
+          temporary = %W()
+          case action_name
+          when *default_layout
+            'application'
+          when *centered_column
+            'centered_column'
+          when *temporary
+            'temporary'
+          end
+        }
     end
 
     config.generators do |g|

@@ -21,11 +21,9 @@
       span.glyphicon.glyphicon-ok-circle
     - when policy(mission).edit?
       .btn-group
-        = link_to 'Edit', '#', class: 'btn btn-sm btn-primary'
-        /= link_to 'Delete', '#', data: { confirm: 'Are you sure?' }, \
-            //method: :delete, class: 'btn btn-sm btn-danger'
-        = link_to 'Delete', '#', data: { confirm: 'Are you sure?' }, \
-          class: 'btn btn-sm btn-danger'
+        = link_to 'Edit', edit_mission_path(mission), class: 'btn btn-sm btn-primary'
+        = link_to 'Delete', mission, data: { confirm: 'Are you sure?' }, \
+            method: :delete, class: 'btn btn-sm btn-danger'
     - when !current_user
         = link_to 'Sign up', new_user_registration_path, class: 'btn btn-default'
         = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'

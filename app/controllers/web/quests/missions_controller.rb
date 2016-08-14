@@ -53,9 +53,9 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   def update
     authorize @mission
     if @mission.update(mission_params)
-      redirect_to @mission, notice: 'Mission was successfully updated.'
+      redirect_to @mission.quest, notice: 'Mission was successfully updated.'
     else
-      render :edit
+      render :edit, layout: 'centered_column'
     end
   end
 

@@ -12,7 +12,8 @@
       .btn-group
         = link_to 'Edit', edit_quest_path(@quest), class: 'btn btn-primary btn-sm'
         - if policy(@quest).destroy?
-          = link_to 'Delete', @quest, method: :delete, class: 'btn btn-danger btn-sm'
+          = link_to 'Delete', @quest, method: :delete, class: 'btn btn-danger btn-sm', \
+                                      data: { confirm: 'Are you sure?' }
 
   .col-md-5.description-show
     .col-md-12
