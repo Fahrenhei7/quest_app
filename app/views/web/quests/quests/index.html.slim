@@ -2,6 +2,9 @@
   .col-md-4
     h3
       | Notifications
+    - if current_user && user_email_unconfirmed?
+       .alert.alert-warning
+          | Confirm your e-mail!
     - if @notifications.empty?
       | ¯\_(ツ)_/¯
     - @notifications.each do |n|
