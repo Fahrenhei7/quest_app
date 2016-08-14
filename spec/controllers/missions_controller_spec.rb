@@ -220,6 +220,11 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           user.reload
           expect(user.points).to eq(0)
         end
+        it 'doesn\'t create new notification about solving' do
+          expect{
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+          }.not_to change(Notification, :count)
+        end
       end
     end
 
@@ -303,22 +308,18 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               user.reload
               expect(user.points).to eq(mission.cost)
             end
+            it 'creates new notifications about solving mission' do
+              expect {
+                post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+              }.to change(Notification, :count).by(1)
+            end
           end
           context 'rigth key wrong case' do
             let(:wrong_case_key) { "sUpeRkEy_ONe" }
-            it 'redirects to quest path' do
-              post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
-              expect(response).to redirect_to(quest)
-            end
             it 'updates missionn\'s users in database' do
               expect {
                 post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
               }.to change(mission.users, :count).by(1)
-            end
-            it 'updates user\'s pts in database' do
-              post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
-              user.reload
-              expect(user.points).to eq(mission.cost)
             end
           end
           context 'wrong key' do
@@ -335,6 +336,11 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
               user.reload
               expect(user.points).to eq(0)
+            end
+            it 'does notcreates new notifications about solving mission' do
+              expect {
+                post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
+              }.not_to change(Notification, :count)
             end
           end
         end
