@@ -28,6 +28,16 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     authorize @mission
     respond_to do |format|
       if @mission.save
+        new_notification = CreateNotification.new(
+          @mission.quest.signed_users,
+          'new_mission',
+          'new mission in signed quest',
+          {
+            quest: @mission.quest.name,
+            mission_cost: @mission.cost
+          }
+        )
+        new_notification.call
         format.html { redirect_to quest_path(current_quest),
                       notice: 'Mission was successfully created.' }
         format.js { render file: 'web/quests/quests/remote/create_mission',

@@ -12,7 +12,7 @@ class CheckKey
       mission.users << user
       add_points = AddPoints.new(user, mission.cost)
       add_points.call
-      new_notification = CreateNotification.new(user, 0,
+      new_notification = CreateNotification.new(user, 'solved_mission',
                                                "You successfully done mission!",
                                                {pts: mission.cost,
                                                 quest: mission.quest.name})

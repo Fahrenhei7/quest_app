@@ -134,6 +134,20 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               post :create, params: { quest_id: quest, mission: valid_data }
             }.to change(Mission, :count).by(1)
           end
+          it 'does not create notification for non-signed / author users' do
+            user2 = FactoryGirl.create(:user)
+            quest = FactoryGirl.create(:quest, creator: user, signed_users: [user2])
+            expect {
+              post :create, params: { quest_id: quest, mission: valid_data }
+            }.not_to change(user.notifications, :count)
+          end
+          it 'creates notification for signed users' do
+            user2 = FactoryGirl.create(:user)
+            quest = FactoryGirl.create(:quest, creator: user, signed_users: [user2])
+            expect {
+              post :create, params: { quest_id: quest, mission: valid_data }
+            }.to change(user2.notifications, :count).by(1)
+          end
         end
 
         context 'invalid data' do
@@ -345,6 +359,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           end
         end
       end
+
     end
   end
 end
