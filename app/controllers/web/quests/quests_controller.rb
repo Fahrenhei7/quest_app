@@ -43,7 +43,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
     if @quest.update(quest_params)
       redirect_to @quest, notice: 'Quest was successfully updated.'
     else
-      render :edit
+      render :edit, layout: 'centered_column'
     end
   end
 

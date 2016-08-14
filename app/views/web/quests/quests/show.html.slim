@@ -8,8 +8,11 @@
       = link_to 'Sign to quest', sign_path, method: :post, class: 'btn btn-primary btn-sm'
     - elsif policy(@quest).unsign?
       = link_to 'Unsign from quest', unsign_path, method: :delete, class: 'btn btn-warning btn-sm'
-    - else
-      | Can't sign or unsign
+    - elsif policy(@quest).edit?
+      .btn-group
+        = link_to 'Edit', edit_quest_path(@quest), class: 'btn btn-primary btn-sm'
+        - if policy(@quest).destroy?
+          = link_to 'Delete', @quest, method: :delete, class: 'btn btn-danger btn-sm'
 
   .col-md-5.description-show
     .col-md-12
