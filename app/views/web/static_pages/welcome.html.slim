@@ -1,2 +1,14 @@
-h1 StaticPages#welcome
-p Find me in app/views/static_pages/welcome.html.slim
+scss:
+  .links-welcome {
+    margin: 0 auto;
+    margin-top: 20px;
+    float: none;
+    .btn {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
+.container
+  .links-welcome.col-md-5
+    = link_to 'Sign in', new_user_session_path, class: 'btn btn-primary'
+    = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary'

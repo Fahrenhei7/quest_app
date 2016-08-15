@@ -25,6 +25,18 @@
   width: 100%;
 }
 
+.top-users {
+  tr:nth-child(1) {
+    background-color: rgba(212 , 175 , 55, .2)
+  }
+  tr:nth-child(2) {
+    background-color: rgba(192 , 192 , 192, .2)
+  }
+  tr:nth-child(3) {
+    background-color: rgba(166, 125, 61, .2)
+  }
+}
+
 //------------
 // notifications
 .notification-partial {
