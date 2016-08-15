@@ -2,6 +2,8 @@
   .col-md-4
     h3
       | Notifications
+    - flash.each do |key, value|
+      div class=("alert alert-#{key}") = value
     - if current_user && user_email_unconfirmed?
        .alert.alert-warning
           | Confirm your e-mail!

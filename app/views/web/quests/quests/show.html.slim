@@ -14,7 +14,9 @@
         - if policy(@quest).destroy?
           = link_to 'Delete', @quest, method: :delete, class: 'btn btn-danger btn-sm', \
                                       data: { confirm: 'Are you sure?' }
-
+    hr
+    - flash.each do |key, value|
+      div class=("alert alert-#{key}") = value
   .col-md-5.description-show
     .col-md-12
       h3.text-center

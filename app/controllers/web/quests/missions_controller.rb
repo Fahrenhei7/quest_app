@@ -70,10 +70,10 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     check_key = CheckKey.new(current_user, @mission, submitted_key_params)
 
     if check_key.call
-      flash[:notice] = 'SOLVED!'
+      flash[:success] = "Right answer! You gained #{@mission.cost} points!"
       redirect_to @mission.quest
     else
-      flash[:notice] = 'Wrong key'
+      flash[:danger] = 'Wrong key'
       redirect_to @mission.quest
     end
   end
