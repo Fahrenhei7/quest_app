@@ -114,6 +114,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
     it_behaves_like 'public access to missions'
 
     context 'is the owner of mission\'s quest' do
+
       describe 'GET #new' do
         it 'assigns a new mission as @mission' do
           get :new, params: { quest_id: quest }
@@ -305,8 +306,26 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         end
       end
 
-      context 'user is not signed to mission\'s quest' do
-        describe 'POST #check_key' do
+      describe 'POST #check_key' do
+
+        shared_examples 'pundit fails' do
+          it 'redirects to all quests' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            expect(response).to redirect_to(quests_path)
+          end
+          it 'does not creates new notification to user' do
+            expect {
+              post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            }.not_to change(Notification, :count)
+          end
+          it 'does not change user pts' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            user.reload
+            expect(user.pts).to eq(0)
+          end
+        end
+
+        context 'mission allowed to answer' do
           context 'right key' do
             it 'redirects to quest path' do
               post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
@@ -358,8 +377,28 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
             end
           end
         end
-      end
+        context 'mission not yet ready (previous isn\'t solved)' do
+          let(:mission2) { FactoryGirl.create(:mission, quest: quest) }
+          it_behaves_like 'pundit fails'
 
+          it 'does not changes database' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            mission2.reload
+            expect(mission2.solved_by).to be_nil
+          end
+        end
+        context 'mission solved by someone else' do
+          let(:user3) { FactoryGirl.create(:user) }
+          let(:mission) { FactoryGirl.create(:mission, quest: quest, solved_by: user3 ) }
+          it_behaves_like 'pundit fails'
+
+          it 'does not changes database' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            mission.reload
+            expect(mission.solved_by).to eq(user3)
+          end
+        end
+      end
     end
   end
 end
