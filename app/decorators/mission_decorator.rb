@@ -10,11 +10,11 @@ class MissionDecorator < Draper::Decorator
   #     end
   #   end
 
-  def is_solved_by_user?(user)
-    object.users.include?(user)
+  def ready_to_show?
+    object.prev.nil? || object.prev.solved?
   end
 
-  def is_owned_by_user?(user)
+  def owned_by_user?(user)
     object.quest.creator == user
   end
 

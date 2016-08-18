@@ -27,7 +27,7 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     @mission = current_quest.missions.new(mission_params)
     authorize @mission
     respond_to do |format|
-      if @mission.save
+      if @mission.save!
         new_notification = CreateNotification.new(
           @mission.quest.signed_users,
           'new_mission',

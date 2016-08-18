@@ -17,7 +17,7 @@ class Quest < ApplicationRecord
   has_many :quest_user_joins #join table assosiate
   has_many :signed_users, through: :quest_user_joins, source: :user
 
-  has_many :missions, dependent: :destroy
+  has_many :missions, -> { order(id: :asc) }, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 4, maximum: 45 }
   validates :description, presence: true, length: { minimum: 15, maximum: 600 }

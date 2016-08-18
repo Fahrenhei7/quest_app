@@ -34,7 +34,7 @@ class User < ApplicationRecord
   has_many :notification_user_joins
   has_many :notifications, through: :notification_user_joins
 
-  has_and_belongs_to_many :missions
+  has_many :solved_missions, class_name: 'Mission', foreign_key: :solved_missions_id
 
   validates :name, presence: true, length: { minimum: 2, maximum: 25 }
 

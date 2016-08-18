@@ -150,7 +150,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
             }.to change(user2.notifications, :count).by(1)
           end
         end
-
         context 'invalid data' do
           let(:invalid_data) { FactoryGirl.attributes_for(:mission, task: '') }
 
@@ -392,7 +391,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           let(:mission) { FactoryGirl.create(:mission, quest: quest, solved_by: user3 ) }
           it_behaves_like 'pundit fails'
 
-          it 'does not changes database' do
+          it 'does not change database' do
             post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
             mission.reload
             expect(mission.solved_by).to eq(user3)

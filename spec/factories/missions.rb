@@ -14,8 +14,10 @@
 FactoryGirl.define do
   factory :mission do
     task "Mission text factory girl"
+    parting "Some parting words"
     keys ["superkey_one", "superkey_two"]
-    association :quest
     difficulty "hard"
+    association :quest
+    association :solved_by
   end
 end

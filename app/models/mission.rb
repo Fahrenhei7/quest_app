@@ -16,14 +16,26 @@ class Mission < ApplicationRecord
 
   enum difficulty: [:easy, :medium, :hard, :legendary]
 
-  has_and_belongs_to_many :users
   belongs_to :quest
+  belongs_to :solved_by, class_name: 'User', foreign_key: :solved_by_user_id, \
+    optional: true
 
 
   validates :task, presence: true
   validates :difficulty, presence: true
   validates :keys, presence: true
 
+  def prev
+    quest.missions.where('id < ?', id).last
+  end
+
+  def solved?
+    solved_by != nil
+  end
+
+  def not_solved?
+    solved_by.nil?
+  end
 
   def cost
     case difficulty
@@ -37,6 +49,7 @@ class Mission < ApplicationRecord
       9
     end
   end
+
 
   private
 
