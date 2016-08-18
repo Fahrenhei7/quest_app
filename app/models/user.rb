@@ -18,6 +18,11 @@
 #  name                   :string
 #  created_quests_id      :integer
 #  points                 :integer          default(0)
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  missions_id            :integer
+#  solved_missions_id     :integer
 #
 
 class User < ApplicationRecord

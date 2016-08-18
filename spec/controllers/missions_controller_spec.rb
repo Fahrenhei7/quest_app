@@ -96,9 +96,9 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         expect(response).to redirect_to(new_user_session_url)
       end
       it 'doesn\'t change database' do
-        expect{
-          post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
-        }.not_to change(mission.users, :count)
+        post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+        mission.reload
+        expect(mission.solved_by).to be_nil
       end
     end
   end
@@ -182,7 +182,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           before(:each) { patch :update, params: { id: mission, mission: valid_data } }
 
           it 'redirects to quests#show' do
-            expect(response).to redirect_to(mission)
+            expect(response).to redirect_to(mission.quest)
           end
           it 'updates record in database' do
             mission.reload
@@ -225,9 +225,9 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           expect(response).to redirect_to(quests_path)
         end
         it 'doesn\'t change database mission users' do
-          expect{
-            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
-          }.not_to change(mission.users, :count)
+          post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+          mission.reload
+          expect(mission.solved_by).to be_nil
         end
         it 'doesn\'t change database user\'s pts' do
           post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
@@ -307,23 +307,6 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
 
       describe 'POST #check_key' do
 
-        shared_examples 'pundit fails' do
-          it 'redirects to all quests' do
-            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
-            expect(response).to redirect_to(quests_path)
-          end
-          it 'does not creates new notification to user' do
-            expect {
-              post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
-            }.not_to change(Notification, :count)
-          end
-          it 'does not change user pts' do
-            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
-            user.reload
-            expect(user.pts).to eq(0)
-          end
-        end
-
         context 'mission allowed to answer' do
           context 'right key' do
             it 'redirects to quest path' do
@@ -331,9 +314,9 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               expect(response).to redirect_to(quest)
             end
             it 'updates missionn\'s users in database' do
-              expect {
-                post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
-              }.to change(mission.users, :count).by(1)
+              post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+              mission.reload
+              expect(mission.solved_by).to eq(user)
             end
             it 'updates user\'s pts in database' do
               post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
@@ -349,9 +332,9 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
           context 'rigth key wrong case' do
             let(:wrong_case_key) { "sUpeRkEy_ONe" }
             it 'updates missionn\'s users in database' do
-              expect {
-                post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
-              }.to change(mission.users, :count).by(1)
+              post :check_key, params: { id: mission, mission_key: { key: wrong_case_key } }
+              mission.reload
+              expect(mission.solved_by).to eq(user)
             end
           end
           context 'wrong key' do
@@ -360,9 +343,9 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
               expect(response).to redirect_to(quest)
             end
             it 'does not update mission\'s users in database' do
-              expect {
-                post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
-              }.not_to change(mission.users, :count)
+              post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
+              mission.reload
+              expect(mission.solved_by).to be_nil
             end
             it 'does not update user\'s pts' do
               post :check_key, params: { id: mission, mission_key: { key: 'wrong_key' } }
@@ -376,10 +359,25 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
             end
           end
         end
-        context 'mission not yet ready (previous isn\'t solved)' do
-          let(:mission2) { FactoryGirl.create(:mission, quest: quest) }
-          it_behaves_like 'pundit fails'
 
+        context 'mission not yet ready (previous isn\'t solved)' do
+          let!(:mission) { FactoryGirl.create(:mission, quest: quest) }
+          let!(:mission2) { FactoryGirl.create(:mission, quest: quest) }
+
+          it 'redirects to all quests' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            expect(response).to redirect_to(quests_path)
+          end
+          it 'does not creates new notification to user' do
+            expect {
+              post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            }.not_to change(Notification, :count)
+          end
+          it 'does not change user\'s pts' do
+            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            user.reload
+            expect(user.points).to eq(0)
+          end
           it 'does not changes database' do
             post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
             mission2.reload
@@ -389,12 +387,25 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         context 'mission solved by someone else' do
           let(:user3) { FactoryGirl.create(:user) }
           let(:mission) { FactoryGirl.create(:mission, quest: quest, solved_by: user3 ) }
-          it_behaves_like 'pundit fails'
 
+          it 'redirects to quests_path' do
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+            expect(response).to redirect_to(quests_path)
+          end
+          it 'does not creates new notification to user' do
+            expect {
+              post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+            }.not_to change(Notification, :count)
+          end
           it 'does not change database' do
-            post :check_key, params: { id: mission2, mission_key: { key: mission2.keys.first } }
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
             mission.reload
             expect(mission.solved_by).to eq(user3)
+          end
+          it 'does not change user pts' do
+            post :check_key, params: { id: mission, mission_key: { key: mission.keys.first } }
+            user.reload
+            expect(user.points).to eq(0)
           end
         end
       end

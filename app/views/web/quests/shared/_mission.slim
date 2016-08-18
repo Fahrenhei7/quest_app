@@ -1,33 +1,15 @@
-.panel.panel-default.single-mission
-  - if mission.ready_to_show? || mission.owned_by_user?(current_user)
+- if mission.ready_to_show? || mission.owned_by_user?(current_user)
+  .panel.panel-default.single-mission
     .corner-ribbon(class="#{mission.difficulty}") = mission.cost
     .panel-body
-      /- unless policy(mission).see_task?
-        /| You can't see tasks before signing in
-      /- else
       p = mission.task
       - unless policy(mission).check_key?
         - mission.keys.each do |k|
           span.label.label-primary.mission-show-key = k
     .panel-footer
-      - case
-      - when policy(mission).check_key?
-        = simple_form_for :mission_key, url: check_key_path(mission), method: :post do |f|
-          .input-group
-            = f.input :key, required: false, label: false
-            .input-group-btn
-              = f.button :submit, 'Submit'
-      - when policy(mission).edit?
-        .btn-group
-          = link_to 'Edit', edit_mission_path(mission), class: 'btn btn-sm btn-primary'
-          = link_to 'Delete', mission, data: { confirm: 'Are you sure?' }, \
-              method: :delete, class: 'btn btn-sm btn-danger'
-          - if mission.solved?
-            | solved
-      - when mission.solved?
-        span.glyphicon.glyphicon-ok-circle
-      - when !current_user
-          = link_to 'Sign up', new_user_registration_path, class: 'btn btn-default'
-          = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'
-  - else
-    | locked
+      = render partial: 'web/quests/shared/mission_partials/footer', \
+        locals: { mission: mission }
+- else
+  .panel.panel-danger
+    .panel-body
+      | locked
