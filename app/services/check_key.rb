@@ -15,7 +15,7 @@ class CheckKey
                                                 "You successfully done mission!",
                                                 {pts: mission.cost,
                                                  quest: mission.quest.name})
-      if mission.save
+      if mission.save!
         add_points.call
         new_notification.call
         true

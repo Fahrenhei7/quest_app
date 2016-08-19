@@ -15,8 +15,10 @@
 
 class Mission < ApplicationRecord
   before_validation :delete_blank_keys
+  after_save :set_status_all_missions
 
   enum difficulty: [:easy, :medium, :hard, :legendary]
+  enum status: [:solved, :active, :locked]
 
   belongs_to :quest
   belongs_to :solved_by, class_name: 'User', foreign_key: :solved_by_user_id, \
@@ -29,14 +31,6 @@ class Mission < ApplicationRecord
 
   def prev
     quest.missions.where('id < ?', id).last
-  end
-
-  def solved?
-    solved_by != nil
-  end
-
-  def not_solved?
-    solved_by.nil?
   end
 
   def cost
@@ -54,6 +48,19 @@ class Mission < ApplicationRecord
 
 
   private
+
+  def set_status_all_missions
+    quest.missions.each do |m|
+      new_status = if m.solved_by.present?
+                     'solved'
+                   elsif m.prev.nil? || m.prev.solved?
+                     'active'
+                   elsif m.prev.solved_by.nil?
+                     'locked'
+                   end
+      m.update_column(:status, new_status)
+    end
+  end
 
   def delete_blank_keys
     self.keys.delete_if { |i| i.blank? }

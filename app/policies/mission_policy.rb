@@ -14,7 +14,7 @@ class MissionPolicy < ApplicationPolicy
   end
 
   def check_key?
-    user && user != quest.creator && mission.not_solved? && (mission.prev.nil? || mission.prev.solved?)
+    user && user != quest.creator && mission.active?
   end
 
   #def see_task?
