@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Web::Quests::MissionsController, type: :controller do
-  let(:valid_attributes) { FactoryGirl.attributes_for(:mission) }
-  let(:invalid_attributes) { FactoryGirl.attributes_for(:mission, task: '') }
 
   shared_examples 'public access to missions' do
     let(:quest) { FactoryGirl.create(:quest) }
