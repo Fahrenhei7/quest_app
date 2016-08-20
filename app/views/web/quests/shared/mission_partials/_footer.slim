@@ -5,13 +5,6 @@
       = f.input :key, required: false, label: false
       .input-group-btn
         = f.button :submit, 'Submit'
-- when mission.owned_by_user?(current_user)
-  .btn-group
-    = link_to 'Edit', edit_mission_path(mission), class: 'btn btn-sm btn-primary'
-    = link_to 'Delete', mission, data: { confirm: 'Are you sure?' }, \
-        method: :delete, class: 'btn btn-sm btn-danger'
-    - if mission.solved?
-      | solved
 - when mission.solved?
   span.glyphicon.glyphicon-ok-circle
 - when !current_user

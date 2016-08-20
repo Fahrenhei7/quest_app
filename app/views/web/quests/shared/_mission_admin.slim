@@ -1,0 +1,14 @@
+.panel.panel-default.single-mission
+  .corner-ribbon(class="#{mission.difficulty}") = mission.cost
+  .panel-body
+    p = mission.task
+    - mission.keys.each do |k|
+      span.label.label-primary.mission-show-key = k
+  .panel-footer
+    .btn-group
+      = link_to 'Edit', edit_mission_path(mission), class: 'btn btn-sm btn-primary'
+      = link_to 'Delete', mission, data: { confirm: 'Are you sure?' }, \
+          method: :delete, class: 'btn btn-sm btn-danger'
+    .mission-status-admin
+      // helpers
+      = status_label(mission.status).html_safe

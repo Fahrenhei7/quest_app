@@ -1,4 +1,4 @@
-- if mission.solved? || mission.active? || mission.owned_by_user?(current_user)
+- if mission.solved? || mission.active?
   .panel.panel-default.single-mission
     .corner-ribbon(class="#{mission.difficulty}") = mission.cost
     .panel-body
