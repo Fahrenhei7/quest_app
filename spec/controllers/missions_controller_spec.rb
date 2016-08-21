@@ -124,7 +124,7 @@ RSpec.describe Web::Quests::MissionsController, type: :controller do
         context 'valid data' do
           let(:valid_data) { FactoryGirl.attributes_for(:mission) }
 
-          it 'redirects to "mission" page' do
+          it 'redirects to quest page' do
             post :create, params: { quest_id: quest, mission: valid_data }
             expect(response).to redirect_to(quest_path(quest))
           end
