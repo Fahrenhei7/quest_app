@@ -15,8 +15,8 @@ FactoryGirl.define do
   factory :suggestion do
     text "MyText"
     rating 1
-    user ""
-    mission ""
+    association :user
+    association :mission
     status 1
   end
 end

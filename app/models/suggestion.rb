@@ -12,4 +12,8 @@
 #
 
 class Suggestion < ApplicationRecord
+  belongs_to :user
+  belongs_to :mission
+
+  validates :text, presence: true
 end

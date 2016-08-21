@@ -25,6 +25,8 @@ class Mission < ApplicationRecord
   belongs_to :solved_by, class_name: 'User', foreign_key: :solved_by_user_id, \
     optional: true
 
+  has_many :suggestions
+
 
   validates :task, presence: true
   validates :difficulty, presence: true

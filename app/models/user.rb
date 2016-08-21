@@ -41,6 +41,8 @@ class User < ApplicationRecord
 
   has_many :solved_missions, class_name: 'Mission', foreign_key: :solved_missions_id
 
+  has_many :suggestions
+
   validates :name, presence: true, length: { minimum: 2, maximum: 25 }
 
 

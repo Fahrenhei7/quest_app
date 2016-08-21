@@ -26,7 +26,9 @@ Rails.application.routes.draw do
 
       scope module: 'quests' do
         resources :quests do
-          resources :missions, shallow: true
+          resources :missions, shallow: true do
+            resources :suggestions, shallow: true
+          end
         end
         get '/manage_quests', to: 'quests#manage_quests'
         post 'missions/:id/check_key', to: 'missions#check_key', as: 'check_key'

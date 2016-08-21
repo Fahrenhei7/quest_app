@@ -18,7 +18,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       it 'doesn\'t create new record in db' do
         expect {
           post :create, params: { mission_id: mission, suggestion: FactoryGirl.attributes_for(:suggestion) }
-        }.not_to chagne(Suggestion, :count)
+        }.not_to change(Suggestion, :count)
       end
     end
     describe 'GET #edit' do
@@ -32,7 +32,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       let(:new_params) { FactoryGirl.attributes_for(:suggestion, text: 'new_sug') }
       it 'redirects to login page' do
         patch :update, params: { id: suggestion, suggestion: new_params }
-        expect(response).redirect_to(new_user_session_url)
+        expect(response).to redirect_to(new_user_session_url)
       end
       it 'does not changes database' do
         patch :update, params: { id: suggestion, suggestion: new_params }
@@ -41,7 +41,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       end
     end
     describe 'DELETE #destroy' do
-      let!(:suggestion) { FactoryGirl.create(:suggestion) }
+      let!(:suggestion) { FactoryGirl.create(:suggestion, mission: mission) }
       it 'redirects to login page' do
         delete :destroy, params: { id: suggestion }
         expect(response).to redirect_to(new_user_session_url)
@@ -49,7 +49,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       it 'doew not delete suggestion from database' do
         expect {
           delete :destroy, params: { id: suggestion }
-        }.not_to chagne(Suggestion, :count)
+        }.not_to change(Suggestion, :count)
       end
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
         end
         it 'creates new record in database' do
           expect{
-            post :create, params: { mission_id: mission, suggestion: valid_data }
+            post :create, xhr: true, params: { mission_id: mission, suggestion: valid_data }
           }.to change(Suggestion, :count).by(1)
         end
       end
@@ -94,9 +94,10 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       end
     end
     context 'is the owner of suggestion' do
-      let(:suggestion) { FactoryGirl.create(:suggestion, user: user) }
+      let(:mission) { FactoryGirl.create(:mission) }
+      let(:suggestion) { FactoryGirl.create(:suggestion, user: user, mission: mission) }
       describe 'GET #edit' do
-        before { get :edit, params: id: suggestion }
+        before { get :edit, params: { id: suggestion } }
         it 'renders :edit template' do
           expect(response).to render_template(:edit)
         end
@@ -106,10 +107,10 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
       end
       describe 'PATCH #update' do
         context 'with valid data' do
-          let(:valid_data) { FactoryGirl.attrbutes_for(:suggestion, text: 'new_val_sug') }
+          let(:valid_data) { FactoryGirl.attributes_for(:suggestion, text: 'new_val_sug') }
           it 'redirects to mission\'s quest' do
             patch :update, params: { id: suggestion, suggestion: valid_data }
-            expect(response).to redirect_to(mission.quest)
+            expect(response).to redirect_to(suggestion.mission.quest)
           end
           it 'updates database record' do
             patch :update, params: { id: suggestion, suggestion: valid_data }
@@ -118,7 +119,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
           end
         end
         context 'with invalid data' do
-          let(:invalid_data) { FactoryGirl.attrbutes_for(:suggestion, text: '') }
+          let(:invalid_data) { FactoryGirl.attributes_for(:suggestion, text: '') }
           it 'render :edit template' do
             patch :update, params: { id: suggestion, suggestion: invalid_data }
             expect(response).to render_template(:edit)
@@ -134,7 +135,7 @@ RSpec.describe Web::Quests::SuggestionsController, type: :controller do
         let!(:suggestion) { FactoryGirl.create(:suggestion, user: user) }
         before { delete :destroy, params: { id: suggestion } }
         it 'redirects to mission\'s quest page' do
-          expect(response).to redirect_to(mission.quest)
+          expect(response).to redirect_to(suggestion.mission.quest)
         end
         it 'deteles record from database' do
           expect(Suggestion.exists?(suggestion.id)).to be_falsy

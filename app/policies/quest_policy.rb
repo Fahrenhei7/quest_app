@@ -9,7 +9,7 @@ class QuestPolicy < ApplicationPolicy
   end
 
   %w(edit? update? destroy?).each do |m|
-    define_method("#{m}") do
+    define_method(m) do
       user == quest.creator
     end
   end

@@ -4,6 +4,7 @@ class CreateSuggestions < ActiveRecord::Migration[5.0]
       t.text :text
       t.integer :rating
       t.references :mission
+      t.references :user
       t.integer :status
 
       t.timestamps
