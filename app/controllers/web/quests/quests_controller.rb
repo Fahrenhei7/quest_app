@@ -14,13 +14,12 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
     @quests = Quest.by_user(current_user)
   end
 
-
   def show
     @missions = MissionDecorator.decorate_collection(@quest.missions)
   end
 
   def new
-    @quest = current_user.created_quests.new
+    @quest = Quest.new
   end
 
   def edit
@@ -28,7 +27,8 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   end
 
   def create
-    @quest = current_user.created_quests.new(quest_params)
+    # @quest = current_user.created_quests.new(quest_params)
+    @quest = Quest.new(quest_params)
 
     if @quest.save
       redirect_to @quest, notice: 'Quest was successfully created.'
@@ -82,6 +82,8 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
   end
 
   def quest_params
-    params.require(:quest).permit(:name, :description, :creator_id)
+    params.require(:quest)
+          .permit(:name, :description, :creator_id)
+          .merge(creator: current_user)
   end
 end

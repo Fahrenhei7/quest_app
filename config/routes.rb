@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       scope module: 'quests' do
         resources :quests do
           resources :missions, shallow: true do
-            resources :suggestions, shallow: true
+            resources :suggestions
           end
         end
         get '/manage_quests', to: 'quests#manage_quests'

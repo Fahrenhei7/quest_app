@@ -1,5 +1,5 @@
 class Web::Quests::SuggestionsController < Web::Quests::ApplicationController
-  before_action :set_suggestion, only: [ :edit, :update, :destroy ]
+  before_action :set_suggestion, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
 
   def new
@@ -11,10 +11,9 @@ class Web::Quests::SuggestionsController < Web::Quests::ApplicationController
   end
 
   def create
-    @suggestion = Mission.find(params[:mission_id]).suggestions.new(suggestion_params)
-    @suggestion.user = current_user
+    @suggestion = choosen_mission.suggestions.new(suggestion_params)
     if @suggestion.save
-      redirect_to @suggestion.mission.quest, notice: 'Suggestion submitted'
+      redirect_to current_quest, notice: 'Suggestion submitted'
     else
       render :new, layout: 'centered_column'
     end
@@ -35,7 +34,6 @@ class Web::Quests::SuggestionsController < Web::Quests::ApplicationController
 
     @suggestion.destroy
     redirect_to current_quest, notice: 'Quest was successfully destroyed.'
-
   end
 
   private
@@ -45,11 +43,12 @@ class Web::Quests::SuggestionsController < Web::Quests::ApplicationController
   end
 
   def suggestion_params
-    params.require(:suggestion).permit(:text, :mission_id, :user_id)
+    params.require(:suggestion)
+          .permit(:text, :mission_id, :user_id)
+          .merge(user: current_user)
   end
 
   def current_quest
     @suggestion.mission.quest
   end
-
 end

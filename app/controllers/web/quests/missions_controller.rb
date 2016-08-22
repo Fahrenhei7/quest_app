@@ -14,7 +14,7 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
     authorize @mission
     respond_to do |format|
       format.js { render file: 'web/quests/quests/remote/new_mission',
-                  layout: false }
+                         layout: false }
       format.html {}
     end
   end
@@ -41,11 +41,11 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
         format.html { redirect_to quest_path(current_quest),
                       notice: 'Mission was successfully created.' }
         format.js { render file: 'web/quests/quests/remote/create_mission',
-                    layout: false }
+                           layout: false }
       else
         format.html { render :new }
         format.js { render file: 'web/quests/quests/remote/new_mission',
-                    layout: false }
+                           layout: false }
       end
     end
   end
@@ -71,11 +71,10 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
 
     if check_key.call
       flash[:success] = "Right answer! You gained #{@mission.cost} points!"
-      redirect_to @mission.quest
     else
       flash[:danger] = 'Wrong key'
-      redirect_to @mission.quest
     end
+    redirect_to @mission.quest
   end
 
   private
@@ -85,10 +84,12 @@ class Web::Quests::MissionsController < Web::Quests::ApplicationController
   end
 
   def submitted_key_params
-    params.require(:mission_key).permit(:key)
+    params.require(:mission_key)
+          .permit(:key)
   end
 
   def mission_params
-    params.require(:mission).permit(:task, :quest_id, :difficulty, keys: [])
+    params.require(:mission)
+          .permit(:task, :difficulty, keys: [])
   end
 end
