@@ -50,6 +50,11 @@ class Mission < ApplicationRecord
   end
 
 
+  def self.active_mission
+    self.find_by_status('active')
+  end
+
+
   private
 
   def set_status_all_missions

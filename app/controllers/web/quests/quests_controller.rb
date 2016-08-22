@@ -1,4 +1,5 @@
 class Web::Quests::QuestsController < Web::Quests::ApplicationController
+  include MissionsHelper
   before_action :set_quest, only: [:edit, :update, :sign, :unsign, :destroy]
   before_action :set_quest_and_missions, only: [:show]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update,
@@ -16,6 +17,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
 
   def show
     @missions = MissionDecorator.decorate_collection(@quest.missions)
+    @suggestions = @quest.missions.active_mission.suggestions
   end
 
   def new
@@ -83,7 +85,7 @@ class Web::Quests::QuestsController < Web::Quests::ApplicationController
 
   def quest_params
     params.require(:quest)
-          .permit(:name, :description, :creator_id)
-          .merge(creator: current_user)
+    .permit(:name, :description, :creator_id)
+    .merge(creator: current_user)
   end
 end

@@ -21,7 +21,17 @@
     .col-md-12
       h3.text-center
         | Description
-      p = @quest.description
+      .panel.panel-default
+        .panel-body = @quest.description
+    .col-md-12
+      h3.text-center
+        | Suggestions
+        = link_to 'Add suggestion', \
+          new_mission_suggestion_path(@quest.missions.active_mission), \
+          class: 'btn btn-default'
+      - @suggestions.each do |s|
+        = render partial: 'web/quests/shared/suggestion_quest_show', \
+          locals: { suggestion: s }
   .col-md-7.missions-quest-show
     .missions
       h3.text-center
